@@ -1,0 +1,141 @@
+{
+  "title": "Create and publish a Zenodo record",
+  "description": "End-to-end example: create a draft, upload a file, and publish to get a DOI.",
+  "baseURL": "https://zenodo.org",
+  "sandboxURL": "https://sandbox.zenodo.org",
+  "authentication": {
+    "type": "Bearer",
+    "header": "Authorization: Bearer <YOUR_ACCESS_TOKEN>",
+    "notes": "Generate a personal access token at https://zenodo.org/account/settings/applications/"
+  },
+  "steps": [
+    {
+      "step": 1,
+      "name": "Create a draft record",
+      "method": "POST",
+      "url": "https://zenodo.org/api/records",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <YOUR_ACCESS_TOKEN>"
+      },
+      "body": {
+        "access": {
+          "record": "public",
+          "files": "public"
+        },
+        "files": {
+          "enabled": true
+        },
+        "metadata": {
+          "title": "My Research Dataset",
+          "description": "This dataset contains processed observations collected in 2024.",
+          "publication_date": "2024-06-01",
+          "resource_type": {
+            "id": "dataset"
+          },
+          "creators": [
+            {
+              "person_or_org": {
+                "name": "Doe, Jane",
+                "type": "personal",
+                "given_name": "Jane",
+                "family_name": "Doe",
+                "identifiers": [
+                  {
+                    "scheme": "orcid",
+                    "identifier": "0000-0002-1825-0097"
+                  }
+                ]
+              },
+              "affiliations": [
+                {
+                  "name": "Example University"
+                }
+              ],
+              "role": {
+                "id": "researcher"
+              }
+            }
+          ],
+          "rights": [
+            {
+              "id": "cc-by-4.0"
+            }
+          ],
+          "keywords": ["research data", "observations", "open science"],
+          "languages": [
+            {
+              "id": "eng"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 201,
+        "notes": "Returns the draft record with id, links.draft, links.files etc."
+      }
+    },
+    {
+      "step": 2,
+      "name": "Start file upload",
+      "method": "POST",
+      "url": "https://zenodo.org/api/records/{draft-id}/draft/files",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <YOUR_ACCESS_TOKEN>"
+      },
+      "body": [
+        {
+          "key": "data.csv"
+        }
+      ],
+      "response": {
+        "status": 201,
+        "notes": "Returns file entry with links.content for the upload URL."
+      }
+    },
+    {
+      "step": 3,
+      "name": "Upload file content",
+      "method": "PUT",
+      "url": "https://zenodo.org/api/records/{draft-id}/draft/files/data.csv/content",
+      "headers": {
+        "Content-Type": "application/octet-stream",
+        "Authorization": "Bearer <YOUR_ACCESS_TOKEN>"
+      },
+      "body": "<binary file contents>",
+      "response": {
+        "status": 200,
+        "notes": "File bytes uploaded to storage."
+      }
+    },
+    {
+      "step": 4,
+      "name": "Commit file upload",
+      "method": "POST",
+      "url": "https://zenodo.org/api/records/{draft-id}/draft/files/data.csv/commit",
+      "headers": {
+        "Authorization": "Bearer <YOUR_ACCESS_TOKEN>"
+      },
+      "body": null,
+      "response": {
+        "status": 201,
+        "notes": "File is now associated with the draft."
+      }
+    },
+    {
+      "step": 5,
+      "name": "Publish the record",
+      "method": "POST",
+      "url": "https://zenodo.org/api/records/{draft-id}/draft/actions/publish",
+      "headers": {
+        "Authorization": "Bearer <YOUR_ACCESS_TOKEN>"
+      },
+      "body": null,
+      "response": {
+        "status": 202,
+        "notes": "Record is now public. A DOI is minted and returned in pids.doi.identifier."
+      }
+    }
+  ]
+}

@@ -1,0 +1,321 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenodo.org/schemas/record",
+  "title": "Zenodo Record",
+  "description": "Schema for a Zenodo record (published or draft) as returned by the REST API.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique record identifier (persistent identifier).",
+      "example": "10.5281/zenodo.1234567"
+    },
+    "conceptdoi": {
+      "type": "string",
+      "description": "Concept DOI representing all versions of the record.",
+      "example": "10.5281/zenodo.1234566"
+    },
+    "doi": {
+      "type": "string",
+      "description": "Version-specific DOI for this record.",
+      "example": "10.5281/zenodo.1234567"
+    },
+    "pids": {
+      "type": "object",
+      "description": "Persistent identifiers assigned to the record.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "identifier": { "type": "string" },
+          "provider": { "type": "string" },
+          "client": { "type": "string" }
+        }
+      }
+    },
+    "access": {
+      "type": "object",
+      "description": "Access control settings for the record.",
+      "properties": {
+        "record": {
+          "type": "string",
+          "enum": ["public", "restricted"],
+          "description": "Visibility of the record metadata."
+        },
+        "files": {
+          "type": "string",
+          "enum": ["public", "restricted"],
+          "description": "Visibility of the record files."
+        },
+        "embargo": {
+          "type": "object",
+          "properties": {
+            "active": { "type": "boolean" },
+            "until": { "type": "string", "format": "date" },
+            "reason": { "type": "string" }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Descriptive metadata for the record.",
+      "required": ["title", "publication_date", "resource_type", "creators"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the research output."
+        },
+        "description": {
+          "type": "string",
+          "description": "Abstract or description of the record."
+        },
+        "publication_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of publication in ISO 8601 format."
+        },
+        "resource_type": {
+          "type": "object",
+          "description": "Resource type classification.",
+          "required": ["id"],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Vocabulary ID for the resource type.",
+              "examples": [
+                "dataset",
+                "software",
+                "publication-article",
+                "image-photo",
+                "presentation",
+                "poster"
+              ]
+            },
+            "title": {
+              "type": "object",
+              "description": "Localised display title for the resource type.",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "creators": {
+          "type": "array",
+          "description": "List of creators/authors.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "person_or_org": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["personal", "organizational"]
+                  },
+                  "given_name": { "type": "string" },
+                  "family_name": { "type": "string" },
+                  "identifiers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "scheme": { "type": "string" },
+                        "identifier": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "affiliations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "name": { "type": "string" }
+                  }
+                }
+              },
+              "role": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "title": {
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "contributors": {
+          "type": "array",
+          "description": "List of contributors (non-primary creators).",
+          "items": {
+            "$ref": "#/properties/metadata/properties/creators/items"
+          }
+        },
+        "subjects": {
+          "type": "array",
+          "description": "Subject terms or keywords.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "subject": { "type": "string" },
+              "scheme": { "type": "string" }
+            }
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Free-text keywords."
+        },
+        "languages": {
+          "type": "array",
+          "description": "Languages of the record content (ISO 639-3).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              }
+            }
+          }
+        },
+        "version": {
+          "type": "string",
+          "description": "Version string for the resource."
+        },
+        "rights": {
+          "type": "array",
+          "description": "License information.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              },
+              "description": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              },
+              "link": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "related_identifiers": {
+          "type": "array",
+          "description": "Related resources (e.g. journal article, dataset, source code).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "identifier": { "type": "string" },
+              "scheme": { "type": "string" },
+              "relation_type": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "title": {
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                  }
+                }
+              },
+              "resource_type": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "funding": {
+          "type": "array",
+          "description": "Funding information (grants and funders).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "funder": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "name": { "type": "string" }
+                }
+              },
+              "award": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "number": { "type": "string" },
+                  "title": {
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "description": "File information for the record.",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "order": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the record was created."
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the record was last modified."
+    },
+    "revision_id": {
+      "type": "integer",
+      "description": "Internal revision counter."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "published"],
+      "description": "Publication status of the record."
+    },
+    "links": {
+      "type": "object",
+      "description": "Hypermedia links for the record.",
+      "properties": {
+        "self": { "type": "string", "format": "uri" },
+        "self_html": { "type": "string", "format": "uri" },
+        "self_iiif_manifest": { "type": "string", "format": "uri" },
+        "self_doi": { "type": "string", "format": "uri" },
+        "doi": { "type": "string", "format": "uri" },
+        "parent": { "type": "string", "format": "uri" },
+        "parent_html": { "type": "string", "format": "uri" },
+        "parent_doi": { "type": "string", "format": "uri" },
+        "versions": { "type": "string", "format": "uri" },
+        "draft": { "type": "string", "format": "uri" },
+        "publish": { "type": "string", "format": "uri" },
+        "files": { "type": "string", "format": "uri" },
+        "latest": { "type": "string", "format": "uri" },
+        "latest_html": { "type": "string", "format": "uri" },
+        "access_links": { "type": "string", "format": "uri" }
+      }
+    }
+  }
+}

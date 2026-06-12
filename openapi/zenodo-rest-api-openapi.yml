@@ -1,0 +1,2978 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST API
+  description: >
+    REST API for Zenodo, the free open research data repository operated by CERN
+    and built on InvenioRDM. Provides programmatic access to deposits (draft records),
+    published records, file management, communities, vocabularies, OAI-PMH sets,
+    requests, users, groups, statistics, and audit logs. Every published record
+    receives a DOI for persistent citation. Authenticate with a personal access token
+    passed as a Bearer token.
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+  - url: https://zenodo.org
+    description: Zenodo production instance
+  - url: https://sandbox.zenodo.org
+    description: Zenodo sandbox (testing)
+security:
+  - BearerAuth: []
+tags:
+  - name: Records
+    description: Record and draft management endpoints
+  - name: Drafts
+    description: Draft record management
+  - name: Drafts Files upload
+    description: Draft file upload workflow
+  - name: Records Files
+    description: File management operations on published records
+  - name: Records Versions
+    description: Record version management
+  - name: Communities
+    description: Community management endpoints
+  - name: Featured Communities
+    description: Featured communities management
+  - name: Communities Members
+    description: Community membership management
+  - name: Communities Invitations
+    description: Community invitation management
+  - name: Communities logo
+    description: Community logo management
+  - name: Users
+    description: User management endpoints
+  - name: Groups
+    description: Group management endpoints
+  - name: Avatars
+    description: User and group avatars
+  - name: Requests
+    description: Request management endpoints
+  - name: Request Actions
+    description: Request actions and lifecycle management
+  - name: Comments
+    description: Request comments and discussions
+  - name: Timeline
+    description: Request timeline and history
+  - name: Vocabularies
+    description: Vocabulary and controlled terms endpoints
+  - name: OAI-PMH
+    description: OAI-PMH protocol endpoints
+  - name: OAI-PMH Sets
+    description: OAI-PMH set management
+  - name: Export
+    description: Record export functionality
+  - name: Statistics
+    description: Statistics and analytics endpoints
+  - name: Access
+    description: Access control and sharing
+  - name: Audit Logs
+    description: Audit log entries and search
+paths:
+  /api/records:
+    post:
+      summary: Create a draft record
+      tags:
+        - Records
+      operationId: createADraftRecord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              access:
+                record: public
+                files: public
+              files:
+                enabled: true
+              metadata:
+                creators:
+                  - person_or_org:
+                      family_name: Doe
+                      given_name: John
+                      identifiers:
+                        - identifier: 0000-0000-0000-0000
+                          scheme: orcid
+                      name: Doe, John
+                      type: personal
+                    affiliations:
+                      - name: Example Organization
+                    role:
+                      id: other
+                publication_date: "2020-06-01"
+                resource_type:
+                  id: dataset
+                title: Example dataset
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    get:
+      summary: Search records
+      tags:
+        - Records
+      operationId: searchRecords
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Search query using ElasticSearch query string syntax.
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+          description: >
+            Sort results. Options: bestmatch, newest, oldest, updated-desc,
+            updated-asc, version, mostviewed, mostdownloaded.
+          example: newest
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Number of items per page (default 10).
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Page number.
+        - name: allversions
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Include all versions (default False).
+          example: "True"
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/records/{recordId}:
+    get:
+      summary: Get a record by ID
+      tags:
+        - Records
+      operationId: getARecordById
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique record identifier
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/communities:
+    delete:
+      summary: Remove a record from a community
+      tags:
+        - Records
+      operationId: deleteRecordCommunity
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft:
+    get:
+      summary: Get a draft record
+      tags:
+        - Drafts
+      operationId: getADraftRecord
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update a draft record
+      tags:
+        - Drafts
+      operationId: updateADraftRecord
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    post:
+      summary: Edit a published record (create draft from published)
+      tags:
+        - Drafts
+      operationId: editAPublishedRecord
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete/discard a draft record
+      tags:
+        - Drafts
+      operationId: deleteADraftRecord
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/actions/publish:
+    post:
+      summary: Publish a draft record
+      tags:
+        - Drafts
+      operationId: publishADraftRecord
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/actions/files-import:
+    post:
+      summary: Link files from previous version
+      tags:
+        - Drafts
+      operationId: linkFilesFromPreviousVersion
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/review:
+    get:
+      summary: Get a review request for a draft
+      tags:
+        - Drafts
+      operationId: getAReviewRequest
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Create or update a review request
+      tags:
+        - Drafts
+      operationId: createUpdateAReviewRequest
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              receiver:
+                community: "community-id"
+              type: community-submission
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a review request
+      tags:
+        - Drafts
+      operationId: deleteAReviewRequest
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/actions/submit-review:
+    post:
+      summary: Submit a draft for community review
+      tags:
+        - Drafts
+      operationId: submitARecordForReview
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              payload:
+                content: Thank you in advance for the review.
+                format: html
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/pids/doi:
+    post:
+      summary: Reserve a DOI for a draft
+      tags:
+        - Drafts
+      operationId: reserveADoi
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a reserved DOI
+      tags:
+        - Drafts
+      operationId: deleteADoi
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/files:
+    post:
+      summary: "Step 1: Start draft file uploads"
+      tags:
+        - Drafts Files upload
+      operationId: startDraftFileUploads
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+            example:
+              - key: "filename.csv"
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    get:
+      summary: List draft files
+      tags:
+        - Drafts
+      operationId: listDraftFiles
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/files/{file-name}/content:
+    put:
+      summary: "Step 2: Upload draft file content"
+      tags:
+        - Drafts Files upload
+      operationId: uploadDraftFileContent
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: file-name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    get:
+      summary: Download a draft file
+      tags:
+        - Drafts
+      operationId: downloadADraftFile
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: file-name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/files/{file-name}/commit:
+    post:
+      summary: "Step 3: Complete a draft file upload"
+      tags:
+        - Drafts Files upload
+      operationId: completeDraftFileUpload
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: file-name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{draftId}/draft/files/{file-name}:
+    get:
+      summary: Get draft file metadata
+      tags:
+        - Drafts
+      operationId: getDraftFileMetadata
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: file-name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a draft file
+      tags:
+        - Drafts
+      operationId: deleteADraftFile
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: file-name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/files:
+    get:
+      summary: List a record's files
+      tags:
+        - Records Files
+      operationId: listRecordFiles
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/files/{file-name}:
+    get:
+      summary: Get a record file's metadata
+      tags:
+        - Records Files
+      operationId: getRecordFileMetadata
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: file-name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/files/{file-name}/content:
+    get:
+      summary: Download a record file
+      tags:
+        - Records Files
+      operationId: downloadRecordFile
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: file-name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/versions:
+    post:
+      summary: Create a new record version
+      tags:
+        - Records Versions
+      operationId: createANewVersion
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    get:
+      summary: Get all versions of a record
+      tags:
+        - Records Versions
+      operationId: getAllVersions
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/versions/latest:
+    get:
+      summary: Get the latest version of a record
+      tags:
+        - Records Versions
+      operationId: getLatestVersion
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/access/links:
+    post:
+      summary: Create an access link
+      tags:
+        - Records
+        - Access
+      operationId: createAnAccessLink
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              permission: view
+              expires_at: "2024-11-06"
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    get:
+      summary: List access links
+      tags:
+        - Records
+        - Access
+      operationId: listAccessLinks
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/access/links/{linkId}:
+    get:
+      summary: Get an access link by ID
+      tags:
+        - Records
+        - Access
+      operationId: getAnAccessLinkById
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: linkId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    patch:
+      summary: Update an access link
+      tags:
+        - Records
+        - Access
+      operationId: updateAnAccessLink
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: linkId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              permission: edit
+              expires_at: "2024-11-06"
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete an access link
+      tags:
+        - Records
+        - Access
+      operationId: deleteAnAccessLink
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: linkId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/records/{recordId}/export/json:
+    get:
+      summary: Export record as JSON
+      tags:
+        - Export
+      operationId: exportRecordAsJson
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/records/{recordId}/export/dublincore:
+    get:
+      summary: Export record as Dublin Core XML
+      tags:
+        - Export
+      operationId: exportRecordAsDublinCore
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/records/{recordId}/export/datacite-xml:
+    get:
+      summary: Export record as DataCite XML
+      tags:
+        - Export
+      operationId: exportRecordAsDataCiteXml
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/records/{recordId}/export/datacite-json:
+    get:
+      summary: Export record as DataCite JSON
+      tags:
+        - Export
+      operationId: exportRecordAsDataCiteJson
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/records/{recordId}/export/csl:
+    get:
+      summary: Export record as CSL
+      tags:
+        - Export
+      operationId: exportRecordAsCsl
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/communities:
+    post:
+      summary: Create a community
+      tags:
+        - Communities
+      operationId: createACommunity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              access:
+                visibility: public
+                member_policy: open
+                record_policy: open
+              slug: my-community
+              metadata:
+                title: My Community
+                description: A research community
+                type:
+                  id: project
+                website: https://example.org/
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    get:
+      summary: Search communities
+      tags:
+        - Communities
+      operationId: searchCommunities
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+          example: updated-asc
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Community type: organization, event, topic, project"
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/communities/{communityId}:
+    get:
+      summary: Get a community
+      tags:
+        - Communities
+      operationId: getACommunity
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update a community
+      tags:
+        - Communities
+      operationId: updateACommunity
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a community
+      tags:
+        - Communities
+      operationId: deleteCommunity
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/communities/{communityId}/records:
+    get:
+      summary: Get records in a community
+      tags:
+        - Communities
+      operationId: getCommunityRecords
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/communities/{communityId}/rename:
+    post:
+      summary: Rename a community
+      tags:
+        - Communities
+      operationId: renameACommunity
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              slug: new-slug
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/communities/{communityId}/logo:
+    get:
+      summary: Get community logo
+      tags:
+        - Communities logo
+      operationId: getCommunityLogo
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update community logo
+      tags:
+        - Communities logo
+      operationId: updateCommunityLogo
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete community logo
+      tags:
+        - Communities logo
+      operationId: deleteCommunityLogo
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/communities/{communityId}/members:
+    get:
+      summary: Search community members
+      tags:
+        - Communities Members
+      operationId: searchMembers
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: role
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Filter by role: reader, curator, manager, owner"
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add group members to community
+      tags:
+        - Communities Members
+      operationId: addGroupMembers
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              members:
+                - id: admin
+                  type: group
+              role: curator
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update community members
+      tags:
+        - Communities Members
+      operationId: updateMembers
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Remove members or leave community
+      tags:
+        - Communities Members
+      operationId: removeMembersLeaveCommunity
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/communities/{communityId}/members/public:
+    get:
+      summary: Search public community members
+      tags:
+        - Communities Members
+      operationId: searchPublicMembers
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/communities/{communityId}/invitations:
+    get:
+      summary: Search community invitations
+      tags:
+        - Communities Invitations
+      operationId: searchInvitations
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: role
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    post:
+      summary: Invite user members to community
+      tags:
+        - Communities Invitations
+      operationId: inviteUserMembers
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              members:
+                - id: "1"
+                  type: user
+              role: curator
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/communities/featured:
+    get:
+      summary: Search featured communities
+      tags:
+        - Featured Communities
+      operationId: searchFeaturedCommunities
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/communities/{communityId}/featured:
+    get:
+      summary: Get featured community entry
+      tags:
+        - Featured Communities
+      operationId: getFeaturedCommunityEntry
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create a featured community entry
+      tags:
+        - Featured Communities
+      operationId: createFeaturedCommunityEntry
+      parameters:
+        - name: communityId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              start_date: "2024-06-12T23:24:15.373Z"
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/users:
+    get:
+      summary: Search users
+      tags:
+        - Users
+      operationId: searchUsers
+      parameters: []
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/users/{userId}:
+    get:
+      summary: Get user by ID
+      tags:
+        - Users
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/users/{userId}/avatar.svg:
+    get:
+      summary: Get user avatar
+      tags:
+        - Users
+        - Avatars
+      operationId: getUserAvatar
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/user/communities:
+    get:
+      summary: Search user's communities
+      tags:
+        - Users
+      operationId: searchUserCommunities
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/user/records:
+    get:
+      summary: Get all draft records for current user
+      tags:
+        - Users
+      operationId: getUserRecords
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+          example: is_published:false
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/groups:
+    get:
+      summary: Search groups
+      tags:
+        - Groups
+      operationId: searchGroups
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          example: admin
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/groups/{groupId}:
+    get:
+      summary: Get group by ID
+      tags:
+        - Groups
+      operationId: getGroupById
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/groups/{groupId}/avatar.svg:
+    get:
+      summary: Get group avatar
+      tags:
+        - Groups
+        - Avatars
+      operationId: getGroupAvatar
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/requests:
+    get:
+      summary: Search requests
+      tags:
+        - Requests
+      operationId: searchRequests
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/requests/{requestId}:
+    get:
+      summary: Get a request
+      tags:
+        - Requests
+      operationId: getARequest
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update a request
+      tags:
+        - Requests
+      operationId: updateARequest
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/requests/{requestId}/actions/accept:
+    post:
+      summary: Accept a request
+      tags:
+        - Request Actions
+      operationId: acceptARequest
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              payload:
+                content: Your request has been accepted!
+                format: html
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/requests/{requestId}/actions/cancel:
+    post:
+      summary: Cancel a request
+      tags:
+        - Request Actions
+      operationId: cancelARequest
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              payload:
+                content: Your request has been cancelled!
+                format: html
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/requests/{requestId}/actions/decline:
+    post:
+      summary: Decline a request
+      tags:
+        - Request Actions
+      operationId: declineARequest
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              payload:
+                content: Your request has been declined!
+                format: html
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/requests/{requestId}/comments:
+    post:
+      summary: Submit a comment on a request
+      tags:
+        - Requests
+        - Comments
+      operationId: submitACommentOnARequest
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              payload:
+                content: My comment text.
+                format: html
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/requests/{requestId}/comments/{comment_id}:
+    get:
+      summary: Get a comment
+      tags:
+        - Requests
+        - Comments
+      operationId: getAComment
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update a comment
+      tags:
+        - Requests
+        - Comments
+      operationId: updateAComment
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a comment
+      tags:
+        - Requests
+        - Comments
+      operationId: deleteAComment
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/requests/{requestId}/timeline:
+    get:
+      summary: Get request timeline
+      tags:
+        - Requests
+        - Timeline
+      operationId: getRequestTimeline
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/vocabularies/{vocabularies-type}:
+    get:
+      summary: Search vocabularies by type
+      tags:
+        - Vocabularies
+      operationId: searchVocabularies
+      parameters:
+        - name: vocabularies-type
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Vocabulary type e.g. resourcetypes, languages, licenses, relationtypes"
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: suggest
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/vocabularies/{vocabularies-type}/{vocabulariesId}:
+    get:
+      summary: Get vocabulary record by ID
+      tags:
+        - Vocabularies
+      operationId: getVocabularyRecordById
+      parameters:
+        - name: vocabularies-type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: vocabulariesId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/funders:
+    get:
+      summary: Search funders vocabulary
+      tags:
+        - Vocabularies
+      operationId: searchFunders
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: suggest
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/funders/{vocFundersId}:
+    get:
+      summary: Get funder by ID
+      tags:
+        - Vocabularies
+      operationId: getFunderById
+      parameters:
+        - name: vocFundersId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/awards:
+    get:
+      summary: Search awards vocabulary
+      tags:
+        - Vocabularies
+      operationId: searchAwards
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: suggest
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/awards/{vocAwardsId}:
+    get:
+      summary: Get award by ID
+      tags:
+        - Vocabularies
+      operationId: getAwardById
+      parameters:
+        - name: vocAwardsId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/names:
+    get:
+      summary: Search names vocabulary
+      tags:
+        - Vocabularies
+      operationId: searchNames
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: suggest
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/names/{vocNamesId}:
+    get:
+      summary: Get name vocabulary entry by ID
+      tags:
+        - Vocabularies
+      operationId: getNameById
+      parameters:
+        - name: vocNamesId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/affiliations:
+    get:
+      summary: Search affiliations vocabulary
+      tags:
+        - Vocabularies
+      operationId: searchAffiliations
+      parameters: []
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/affiliations/{vocAffiliationId}:
+    get:
+      summary: Get affiliation by ID
+      tags:
+        - Vocabularies
+      operationId: getAffiliationById
+      parameters:
+        - name: vocAffiliationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/subjects:
+    get:
+      summary: Search subjects vocabulary
+      tags:
+        - Vocabularies
+      operationId: searchSubjects
+      parameters:
+        - name: suggest
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/subjects/{vocSubjectsId}:
+    get:
+      summary: Get subject by ID
+      tags:
+        - Vocabularies
+      operationId: getSubjectById
+      parameters:
+        - name: vocSubjectsId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/oaipmh/sets:
+    get:
+      summary: Search OAI-PMH sets
+      tags:
+        - OAI-PMH Sets
+      operationId: searchOaipmhSets
+      parameters: []
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create an OAI-PMH set
+      tags:
+        - OAI-PMH Sets
+      operationId: createOaipmhSet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              name: my-set
+              spec: my-set
+              description: A custom set
+              search_pattern: resource_type.id:dataset
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/oaipmh/sets/{setId}:
+    get:
+      summary: Get OAI-PMH set by ID
+      tags:
+        - OAI-PMH Sets
+      operationId: getOaipmhSetById
+      parameters:
+        - name: setId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update an OAI-PMH set
+      tags:
+        - OAI-PMH Sets
+      operationId: updateOaipmhSet
+      parameters:
+        - name: setId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete an OAI-PMH set
+      tags:
+        - OAI-PMH Sets
+      operationId: deleteOaipmhSet
+      parameters:
+        - name: setId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/oaipmh/formats:
+    get:
+      summary: Get OAI-PMH metadata formats
+      tags:
+        - OAI-PMH
+      operationId: getOaipmhMetadataFormats
+      parameters: []
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/stats:
+    post:
+      summary: Get record statistics
+      tags:
+        - Statistics
+      operationId: getStatistics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              views:
+                stat: record-view
+                params:
+                  recid: "record-id"
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/audit-logs:
+    get:
+      summary: Search audit logs (admins only)
+      tags:
+        - Audit Logs
+      operationId: searchAuditLogs
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+          example: newest
+      responses:
+        "200":
+          description: Successful response with audit log entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditLogList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+  /api/audit-logs/{logId}:
+    get:
+      summary: Get audit log entry by ID (admins only)
+      tags:
+        - Audit Logs
+      operationId: getAuditLogEntry
+      parameters:
+        - name: logId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Audit log entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditLogEntry"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings
+  responses:
+    Success:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+    Created:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+    BadRequest:
+      description: Bad request - invalid input parameters
+    Unauthorized:
+      description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
+    NotFound:
+      description: Not found - resource does not exist
+    InternalServerError:
+      description: Internal server error
+    NoContent:
+      description: No content - operation completed successfully
+  schemas:
+    AuditLogList:
+      type: object
+      properties:
+        hits:
+          type: object
+          properties:
+            total:
+              type: integer
+            hits:
+              type: array
+              items:
+                $ref: "#/components/schemas/AuditLogEntry"
+        aggregations:
+          type: object
+    AuditLogEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "9913abd2-1a7c-42cb-a73e-e48a9e1bf4f2"
+        created:
+          type: string
+          format: date-time
+        action:
+          type: string
+          example: "record.publish"
+        resource:
+          type: object
+          properties:
+            type:
+              type: string
+            id:
+              type: string
+        metadata:
+          type: object
+          properties:
+            ip_address:
+              type: string
+            session:
+              type: string
+            parent_pid:
+              type: string
+            revision_id:
+              type: integer
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+            email:
+              type: string
+        links:
+          type: object
+          properties:
+            self:
+              type: string

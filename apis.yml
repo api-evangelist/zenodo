@@ -56,6 +56,8 @@ apis:
         url: https://developers.zenodo.org/
       - type: Sandbox
         url: https://sandbox.zenodo.org
+      - type: OpenAPI
+        url: openapi/zenodo-rest-api-openapi.yml
 
   - aid: zenodo-oai-pmh-api
     name: Zenodo OAI-PMH API
@@ -111,6 +113,18 @@ common:
 
   - type: FinOps
     url: finops/zenodo-finops.yml
+
+  - type: JSONSchema
+    url: json-schema/zenodo-record-schema.json
+
+  - type: Vocabulary
+    url: vocabulary/zenodo-vocabulary.yml
+
+  - type: JSONLDContext
+    url: json-ld/zenodo-context.jsonld
+
+  - type: Example
+    url: examples/zenodo-create-record-example.json
 
 maintainers:
   - FN: Kin Lane

@@ -1,0 +1,184 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "datacite": "http://purl.org/spar/datacite/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "ore": "http://www.openarchives.org/ore/terms/",
+    "oai": "http://www.openarchives.org/OAI/2.0/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "zenodo": "https://zenodo.org/terms/",
+
+    "Record": "schema:Dataset",
+    "DraftRecord": "schema:CreativeWork",
+
+    "id": "@id",
+    "doi": {
+      "@id": "datacite:doi",
+      "@type": "@id"
+    },
+    "conceptdoi": {
+      "@id": "zenodo:conceptdoi",
+      "@type": "@id"
+    },
+    "title": "dcterms:title",
+    "description": "dcterms:description",
+    "publication_date": {
+      "@id": "dcterms:issued",
+      "@type": "xsd:date"
+    },
+    "created": {
+      "@id": "dcterms:created",
+      "@type": "xsd:dateTime"
+    },
+    "updated": {
+      "@id": "dcterms:modified",
+      "@type": "xsd:dateTime"
+    },
+    "version": "schema:version",
+    "status": "schema:creativeWorkStatus",
+    "revision_id": "zenodo:revisionId",
+
+    "metadata": "schema:additionalProperty",
+    "access": "zenodo:access",
+    "files": "zenodo:files",
+    "pids": "zenodo:pids",
+
+    "resource_type": {
+      "@id": "dcterms:type",
+      "@type": "@vocab"
+    },
+
+    "creators": {
+      "@id": "schema:author",
+      "@container": "@list"
+    },
+    "contributors": {
+      "@id": "schema:contributor",
+      "@container": "@list"
+    },
+    "person_or_org": "schema:Person",
+    "given_name": "schema:givenName",
+    "family_name": "schema:familyName",
+    "name": "schema:name",
+    "affiliations": {
+      "@id": "schema:affiliation",
+      "@container": "@set"
+    },
+    "role": "schema:roleName",
+    "identifiers": {
+      "@id": "schema:identifier",
+      "@container": "@set"
+    },
+    "identifier": "schema:value",
+    "scheme": {
+      "@id": "dcterms:conformsTo",
+      "@type": "@id"
+    },
+    "orcid": "https://orcid.org/",
+    "ror": "https://ror.org/",
+    "isni": "https://isni.org/isni/",
+
+    "keywords": {
+      "@id": "schema:keywords",
+      "@container": "@set"
+    },
+    "subjects": {
+      "@id": "schema:about",
+      "@container": "@set"
+    },
+    "subject": "schema:name",
+
+    "languages": {
+      "@id": "dcterms:language",
+      "@container": "@set"
+    },
+
+    "rights": {
+      "@id": "dcterms:rights",
+      "@container": "@set"
+    },
+    "link": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+
+    "related_identifiers": {
+      "@id": "dcterms:relation",
+      "@container": "@set"
+    },
+    "relation_type": "dcterms:type",
+
+    "funding": {
+      "@id": "schema:funding",
+      "@container": "@set"
+    },
+    "funder": {
+      "@id": "schema:funder",
+      "@type": "@id"
+    },
+    "award": {
+      "@id": "schema:grant",
+      "@type": "@id"
+    },
+    "number": "schema:identifier",
+
+    "communities": {
+      "@id": "schema:memberOf",
+      "@container": "@set"
+    },
+    "Community": "schema:Organization",
+    "slug": "schema:identifier",
+    "visibility": "zenodo:visibility",
+    "member_policy": "zenodo:memberPolicy",
+    "record_policy": "zenodo:recordPolicy",
+
+    "links": {
+      "@id": "rdfs:seeAlso",
+      "@container": "@set"
+    },
+    "self": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "self_html": {
+      "@id": "schema:mainEntityOfPage",
+      "@type": "@id"
+    },
+
+    "AuditLogEntry": "schema:Action",
+    "action": "schema:name",
+    "resource": "schema:object",
+    "user": "schema:agent",
+    "username": "schema:alternateName",
+    "email": "schema:email",
+    "ip_address": "schema:ipAddress",
+
+    "OaiSet": "oai:set",
+    "setSpec": "oai:setSpec",
+    "setName": "oai:setName",
+    "search_pattern": "zenodo:searchPattern",
+
+    "AccessLink": "zenodo:AccessLink",
+    "permission": "zenodo:permission",
+    "expires_at": {
+      "@id": "schema:validThrough",
+      "@type": "xsd:date"
+    },
+    "token": "zenodo:token",
+
+    "Request": "schema:Event",
+    "requestId": "@id",
+    "receiver": "schema:recipient",
+    "payload": "schema:description",
+    "format": "dcterms:format",
+    "content": "schema:text",
+
+    "Comment": "schema:Comment",
+    "Timeline": "schema:ItemList"
+  }
+}

@@ -1,0 +1,375 @@
+name: Zenodo Vocabulary
+description: >
+  Controlled vocabulary terms used by Zenodo (InvenioRDM) for record metadata.
+  These terms map to vocabulary endpoints at /api/vocabularies/{type} and
+  dedicated endpoints for names, funders, awards, affiliations, and subjects.
+
+resourceTypes:
+  description: Primary resource type identifiers used in metadata.resource_type.id
+  endpoint: /api/vocabularies/resourcetypes
+  terms:
+    - id: dataset
+      label: Dataset
+      description: Raw or processed research data.
+    - id: software
+      label: Software
+      description: Source code, scripts, or compiled programs.
+    - id: publication-article
+      label: Journal article
+      description: Peer-reviewed article published in a journal.
+    - id: publication-preprint
+      label: Preprint
+      description: Scientific manuscript prior to peer review.
+    - id: publication-report
+      label: Report
+      description: Technical or project report.
+    - id: publication-thesis
+      label: Thesis
+      description: Doctoral or masters thesis.
+    - id: publication-book
+      label: Book
+      description: Complete book.
+    - id: publication-section
+      label: Book section
+      description: Chapter or section within a book.
+    - id: publication-conferencepaper
+      label: Conference paper
+      description: Paper presented at a conference and published in proceedings.
+    - id: publication-datamanagementplan
+      label: Data management plan
+      description: Formal plan describing research data management.
+    - id: publication-other
+      label: Other
+      description: Publication type not covered by other terms.
+    - id: image-photo
+      label: Photo
+      description: Photograph or still image.
+    - id: image-figure
+      label: Figure
+      description: Diagram, chart, or illustration.
+    - id: image-diagram
+      label: Diagram
+      description: Visual representation such as a flowchart or network diagram.
+    - id: image-drawing
+      label: Drawing
+      description: Hand-drawn or digital illustration.
+    - id: image-other
+      label: Other
+      description: Image type not covered by other terms.
+    - id: video
+      label: Video/Audio
+      description: Audiovisual recording.
+    - id: presentation
+      label: Presentation
+      description: Slides or presentation materials.
+    - id: poster
+      label: Poster
+      description: Scientific poster for a conference or event.
+    - id: lesson
+      label: Lesson
+      description: Educational or instructional material.
+    - id: physicalobject
+      label: Physical object
+      description: Physical specimen, sample, or artefact.
+    - id: workflow
+      label: Workflow
+      description: Computational workflow or data pipeline.
+    - id: event
+      label: Event
+      description: Conference, workshop, or other event.
+    - id: model
+      label: Model
+      description: Computational or physical model.
+    - id: interactiveresource
+      label: Interactive resource
+      description: Interactive resource or simulation.
+    - id: other
+      label: Other
+      description: Research output not classified by other types.
+
+accessRights:
+  description: Access and visibility settings for records and files.
+  values:
+    - id: public
+      label: Public
+      description: Visible to anyone without authentication.
+    - id: restricted
+      label: Restricted
+      description: Visible only to record owners and users with access links.
+
+communityTypes:
+  description: Community classification types used in metadata.type.id
+  endpoint: /api/vocabularies/communitytypes
+  terms:
+    - id: organization
+      label: Organization
+      description: A research institution, company, or other organization.
+    - id: event
+      label: Event
+      description: A conference, workshop, or other event.
+    - id: topic
+      label: Topic
+      description: Thematic collection around a research topic.
+    - id: project
+      label: Project
+      description: A funded or collaborative research project.
+
+memberRoles:
+  description: Role identifiers for community membership.
+  terms:
+    - id: owner
+      label: Owner
+      description: Full administrative access to the community.
+    - id: manager
+      label: Manager
+      description: Can manage members and settings but cannot delete.
+    - id: curator
+      label: Curator
+      description: Can manage records but not membership.
+    - id: reader
+      label: Reader
+      description: Read-only access to restricted community records.
+
+contributorRoles:
+  description: Role identifiers for record contributors. Endpoint /api/vocabularies/contributorsroles
+  terms:
+    - id: contactperson
+      label: Contact person
+    - id: datacollector
+      label: Data collector
+    - id: datacurator
+      label: Data curator
+    - id: datamanager
+      label: Data manager
+    - id: distributor
+      label: Distributor
+    - id: editor
+      label: Editor
+    - id: hostinginstitution
+      label: Hosting institution
+    - id: other
+      label: Other
+    - id: producer
+      label: Producer
+    - id: projectleader
+      label: Project leader
+    - id: projectmanager
+      label: Project manager
+    - id: projectmember
+      label: Project member
+    - id: registrationagency
+      label: Registration agency
+    - id: registrationauthority
+      label: Registration authority
+    - id: relatedperson
+      label: Related person
+    - id: researcher
+      label: Researcher
+    - id: researchgroup
+      label: Research group
+    - id: rightsholder
+      label: Rights holder
+    - id: sponsor
+      label: Sponsor
+    - id: supervisor
+      label: Supervisor
+    - id: workpackageleader
+      label: Work package leader
+
+creatorRoles:
+  description: Role identifiers for record creators. Endpoint /api/vocabularies/creatorsroles
+  terms:
+    - id: other
+      label: Other
+    - id: researcher
+      label: Researcher
+
+relationTypes:
+  description: Relation type identifiers for related_identifiers. Endpoint /api/vocabularies/relationtypes
+  terms:
+    - id: iscitedby
+      label: Is cited by
+    - id: cites
+      label: Cites
+    - id: issupplementto
+      label: Is supplement to
+    - id: issupplementedby
+      label: Is supplemented by
+    - id: iscontinuedby
+      label: Is continued by
+    - id: continues
+      label: Continues
+    - id: isnewversionof
+      label: Is new version of
+    - id: ispreviousversionof
+      label: Is previous version of
+    - id: ispartof
+      label: Is part of
+    - id: haspart
+      label: Has part
+    - id: isreferencedby
+      label: Is referenced by
+    - id: references
+      label: References
+    - id: isdocumentedby
+      label: Is documented by
+    - id: documents
+      label: Documents
+    - id: iscompiledby
+      label: Is compiled by
+    - id: compiles
+      label: Compiles
+    - id: isvariantformof
+      label: Is variant form of
+    - id: isoriginalformof
+      label: Is original form of
+    - id: isidenticalto
+      label: Is identical to
+    - id: isreviewedby
+      label: Is reviewed by
+    - id: reviews
+      label: Reviews
+    - id: isderivedfrom
+      label: Is derived from
+    - id: issourceof
+      label: Is source of
+    - id: describes
+      label: Describes
+    - id: isdescribedby
+      label: Is described by
+    - id: hasmetadata
+      label: Has metadata
+    - id: ismetadatafor
+      label: Is metadata for
+    - id: isversionof
+      label: Is version of
+    - id: hasversionof
+      label: Has version of
+    - id: isformatof
+      label: Is format of
+    - id: hasformat
+      label: Has format
+    - id: collects
+      label: Collects
+    - id: iscollectedby
+      label: Is collected by
+    - id: isrequiredby
+      label: Is required by
+    - id: requires
+      label: Requires
+    - id: isobsoletedby
+      label: Is obsoleted by
+    - id: obsoletes
+      label: Obsoletes
+    - id: ispublishedin
+      label: Is published in
+
+descriptionTypes:
+  description: Type identifiers for additional descriptions. Endpoint /api/vocabularies/descriptiontypes
+  terms:
+    - id: abstract
+      label: Abstract
+    - id: methods
+      label: Methods
+    - id: seriesinformation
+      label: Series information
+    - id: tableofcontents
+      label: Table of contents
+    - id: technicalinfo
+      label: Technical info
+    - id: other
+      label: Other
+
+dateTypes:
+  description: Date type identifiers. Endpoint /api/vocabularies/datetypes
+  terms:
+    - id: accepted
+      label: Accepted
+    - id: available
+      label: Available
+    - id: collected
+      label: Collected
+    - id: copyrighted
+      label: Copyrighted
+    - id: created
+      label: Created
+    - id: issued
+      label: Issued
+    - id: other
+      label: Other
+    - id: submitted
+      label: Submitted
+    - id: updated
+      label: Updated
+    - id: valid
+      label: Valid
+    - id: withdrawn
+      label: Withdrawn
+
+identifierSchemes:
+  description: Identifier scheme codes used in person_or_org.identifiers and related_identifiers.
+  terms:
+    - id: orcid
+      label: ORCID
+      description: Open Researcher and Contributor ID (e.g. 0000-0002-1825-0097)
+    - id: doi
+      label: DOI
+      description: Digital Object Identifier
+    - id: isni
+      label: ISNI
+      description: International Standard Name Identifier
+    - id: gnd
+      label: GND
+      description: Gemeinsame Normdatei (German authority file)
+    - id: ror
+      label: ROR
+      description: Research Organization Registry identifier
+    - id: arxiv
+      label: arXiv
+      description: arXiv preprint identifier
+    - id: ads
+      label: ADS
+      description: NASA/ADS bibcode
+    - id: pmid
+      label: PMID
+      description: PubMed identifier
+    - id: isbn
+      label: ISBN
+      description: International Standard Book Number
+    - id: issn
+      label: ISSN
+      description: International Standard Serial Number
+    - id: url
+      label: URL
+      description: Uniform Resource Locator
+    - id: hal
+      label: HAL
+      description: HAL open archive identifier
+    - id: handle
+      label: Handle
+      description: Handle persistent identifier
+    - id: purl
+      label: PURL
+      description: Persistent Uniform Resource Locator
+    - id: wos
+      label: Web of Science
+      description: Web of Science accession number
+    - id: scopus
+      label: Scopus
+      description: Scopus EID
+
+oaipmhMetadataFormats:
+  description: Metadata formats available through the OAI-PMH endpoint at https://zenodo.org/oai2d
+  terms:
+    - id: oai_dc
+      label: Dublin Core
+      description: Simple Dublin Core metadata.
+    - id: marcxml
+      label: MARC XML
+      description: Library exchange format MARC21 as XML.
+    - id: oai_datacite4
+      label: DataCite 4
+      description: DataCite 4 metadata schema for DOI records.
+    - id: datacite
+      label: DataCite (legacy)
+      description: DataCite legacy metadata format.
