@@ -1,0 +1,111 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+provider: Zenodo
+providerId: zenodo
+created: '2026-06-12'
+modified: '2026-06-12'
+
+description: >
+  Zenodo is a free, open service funded by CERN and the European OpenAIRE
+  program. There are no direct costs to end users for depositing, accessing,
+  or using the API. FinOps considerations are limited to infrastructure
+  cost awareness and quota planning for large data depositors.
+
+billingModel: free
+currency: USD
+
+focusColumns:
+  - BilledCost
+  - EffectiveCost
+  - UsageQuantity
+  - UsageUnit
+  - ResourceId
+  - ServiceName
+  - ChargeType
+
+meters:
+
+  - name: Storage Used
+    unit: GB
+    description: >
+      Volume of data stored across all records in a Zenodo account.
+      Free up to 50 GB per record with 150 GB additional allowance.
+    pricePerUnit: 0.00
+    chargeType: Usage
+    focus:
+      ServiceName: Zenodo Storage
+      UsageUnit: GB
+
+  - name: API Requests (Authenticated)
+    unit: requests
+    description: >
+      REST API calls made with a valid Bearer token. Metered at the rate-limit
+      layer but not billed. Useful for tracking integration load.
+    pricePerUnit: 0.00
+    chargeType: Usage
+    focus:
+      ServiceName: Zenodo REST API
+      UsageUnit: requests
+
+  - name: API Requests (Guest)
+    unit: requests
+    description: >
+      Unauthenticated REST API calls. Metered at the rate-limit layer.
+    pricePerUnit: 0.00
+    chargeType: Usage
+    focus:
+      ServiceName: Zenodo REST API (Guest)
+      UsageUnit: requests
+
+  - name: OAI-PMH Harvest Requests
+    unit: requests
+    description: >
+      Metadata harvesting requests via the OAI-PMH endpoint. Rate limited
+      but not billed.
+    pricePerUnit: 0.00
+    chargeType: Usage
+    focus:
+      ServiceName: Zenodo OAI-PMH
+      UsageUnit: requests
+
+  - name: DOI Minting
+    unit: DOIs
+    description: >
+      Each published record receives a DataCite DOI. No charge to the depositor.
+    pricePerUnit: 0.00
+    chargeType: Usage
+    focus:
+      ServiceName: Zenodo DOI
+      UsageUnit: DOIs
+
+principles:
+
+  - name: Visibility
+    description: >
+      Although Zenodo itself is free, organizations using the API at scale
+      should track storage consumption per project and API request volume
+      to plan for quota increase requests and ensure fair-use compliance.
+    actions:
+      - Monitor storage usage per record via the /api/deposit/depositions endpoint
+      - Track X-RateLimit-Remaining headers to detect throttling before hitting limits
+      - Audit file counts per record to stay within the 100-file maximum
+
+  - name: Optimization
+    description: >
+      Use authenticated tokens to access higher rate limits (100 req/min vs 60 for guests).
+      Compress multi-file datasets into ZIP archives to stay within per-record file limits.
+      Use the sandbox environment to develop and test before consuming production quotas.
+    actions:
+      - Always authenticate API requests to maximize rate-limit allowance
+      - Aggregate files into archives to reduce record count and file count
+      - Schedule bulk harvesting via OAI-PMH during off-peak hours to avoid 429 errors
+      - Request quota increases proactively for large dataset deposits
+
+  - name: Accountability
+    description: >
+      Zenodo asks depositors to abide by fair-use principles. Abusing the
+      free service — e.g., fragmenting a single dataset across many records
+      to circumvent the 50 GB per-record limit — violates platform policies.
+    actions:
+      - Review Zenodo policies at https://about.zenodo.org/policies/ before bulk uploads
+      - Use one record per logical dataset rather than splitting to game quotas

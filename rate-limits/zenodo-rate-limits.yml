@@ -1,0 +1,74 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+provider: Zenodo
+providerId: zenodo
+created: '2026-06-12'
+modified: '2026-06-12'
+
+description: >
+  Zenodo enforces rate limits on all API endpoints to ensure fair resource
+  distribution. Limits vary by endpoint type and authentication status.
+  Exceeding a limit returns HTTP 429 Too Many Requests. Rate-limit status
+  is exposed via response headers on every API call.
+
+throttled: 429
+retryAfter: X-RateLimit-Reset
+
+headers:
+  - name: X-RateLimit-Limit
+    description: Total number of requests allowed in the current window
+  - name: X-RateLimit-Remaining
+    description: Number of requests remaining in the current window
+  - name: X-RateLimit-Reset
+    description: Unix timestamp (UTC) when the current rate-limit window resets
+
+limits:
+
+  - scope: REST API (authenticated)
+    metric: requests
+    limit: 100
+    timeFrame: minute
+    notes: Applies to all REST API endpoints for users with a valid Bearer token
+
+  - scope: REST API (authenticated)
+    metric: requests
+    limit: 5000
+    timeFrame: hour
+    notes: Hourly ceiling for authenticated REST API users
+
+  - scope: REST API (guest)
+    metric: requests
+    limit: 60
+    timeFrame: minute
+    notes: Applies to unauthenticated REST API requests
+
+  - scope: REST API (guest)
+    metric: requests
+    limit: 2000
+    timeFrame: hour
+    notes: Hourly ceiling for unauthenticated REST API users
+
+  - scope: Search API
+    metric: requests
+    limit: 30
+    timeFrame: minute
+    notes: Applies to the /api/records search endpoint; same limit for authenticated and guest users
+
+  - scope: OAI-PMH
+    metric: requests
+    limit: 30
+    timeFrame: minute
+    notes: Applies to the OAI-PMH harvesting endpoint at https://zenodo.org/oai2d
+
+  - scope: Sandbox (guest)
+    metric: requests
+    limit: 133
+    timeFrame: minute
+    notes: Sandbox environment at sandbox.zenodo.org for development and testing
+
+sandbox:
+  url: https://sandbox.zenodo.org
+  description: >
+    A full-featured testing environment mirroring production. Use for
+    integration development. Sandbox deposits are not published to production
+    and do not receive real DOIs.

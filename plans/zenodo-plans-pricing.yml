@@ -1,0 +1,112 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+provider: Zenodo
+providerId: zenodo
+created: '2026-06-12'
+modified: '2026-06-12'
+reconciled: true
+
+description: >
+  Zenodo is operated by CERN as a free, open service for the research community.
+  There are no paid tiers or subscription plans. All registered users receive the
+  same storage quota and API access. Quota increases beyond the standard limits
+  may be requested on a case-by-case basis.
+
+type: free
+
+plans:
+
+  - name: Free (Standard)
+    description: >
+      Default plan for all registered Zenodo users. No cost. Includes full
+      REST API and OAI-PMH access, DOI minting, and community features.
+    type: free
+    limits:
+
+      - name: Storage per record
+        scope: record
+        metric: bytes
+        limit: 50000000000
+        timeFrame: unlimited
+        type: quota
+        notes: 50 GB per record; up to 100 files per record
+
+      - name: Additional storage allowance
+        scope: account
+        metric: bytes
+        limit: 150000000000
+        timeFrame: unlimited
+        type: quota
+        notes: 150 GB additional allowance distributable across records
+
+      - name: Files per record
+        scope: record
+        metric: files
+        limit: 100
+        timeFrame: unlimited
+        type: quota
+
+      - name: REST API requests (authenticated)
+        scope: api
+        metric: requests
+        limit: 100
+        timeFrame: minute
+        type: metered
+
+      - name: REST API requests (authenticated hourly)
+        scope: api
+        metric: requests
+        limit: 5000
+        timeFrame: hour
+        type: metered
+
+      - name: REST API requests (guest)
+        scope: api
+        metric: requests
+        limit: 60
+        timeFrame: minute
+        type: metered
+
+      - name: REST API requests (guest hourly)
+        scope: api
+        metric: requests
+        limit: 2000
+        timeFrame: hour
+        type: metered
+
+      - name: Search API requests
+        scope: search-api
+        metric: requests
+        limit: 30
+        timeFrame: minute
+        type: metered
+
+      - name: OAI-PMH requests
+        scope: oai-pmh
+        metric: requests
+        limit: 30
+        timeFrame: minute
+        type: metered
+
+  - name: Extended Quota (Request)
+    description: >
+      One-time quota increase available on request for users with large datasets.
+      Granted on a case-by-case basis. No cost.
+    type: free
+    limits:
+
+      - name: One-time record quota increase
+        scope: record
+        metric: bytes
+        limit: 200000000000
+        timeFrame: unlimited
+        type: quota
+        notes: Up to 200 GB for a single record upon approved request; 100-file limit unchanged
+
+pricing:
+  currency: USD
+  billingModel: free
+  notes: >
+    Zenodo is funded by CERN and the European OpenAIRE program. There are no
+    charges for depositing, accessing, or using the API. The service commits
+    to keeping storage and access free for research outputs.
