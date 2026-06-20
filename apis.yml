@@ -11,7 +11,7 @@ description: >
   for metadata harvesting. The platform is built on InvenioRDM and stores all data
   at the CERN Data Centre with replicas and nightly tape backups.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Research
   - Open Data
