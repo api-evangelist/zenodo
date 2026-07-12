@@ -78,6 +78,10 @@ apis:
 
 common:
 
+  - type: DomainSecurity
+    url: security/zenodo-domain-security.yml
+  - type: Authentication
+    url: authentication/zenodo-authentication.yml
   - type: Website
     url: https://zenodo.org/
 
