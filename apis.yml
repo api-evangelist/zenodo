@@ -78,6 +78,8 @@ apis:
 
 common:
 
+  - type: AgenticAccess
+    url: agentic-access/zenodo-agentic-access.yml
   - type: DomainSecurity
     url: security/zenodo-domain-security.yml
   - type: Authentication
