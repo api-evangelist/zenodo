@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST Access Avatars API
+  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
+
+    '
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+- url: https://zenodo.org
+  description: Zenodo production instance
+- url: https://sandbox.zenodo.org
+  description: Zenodo sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Avatars
+  description: User and group avatars
+paths:
+  /api/users/{userId}/avatar.svg:
+    get:
+      summary: Get user avatar
+      tags:
+      - Avatars
+      operationId: getUserAvatar
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/groups/{groupId}/avatar.svg:
+    get:
+      summary: Get group avatar
+      tags:
+      - Avatars
+      operationId: getGroupAvatar
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    Success:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+    NotFound:
+      description: Not found - resource does not exist
+    InternalServerError:
+      description: Internal server error
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings

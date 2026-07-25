@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST Access Communities Members API
+  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
+
+    '
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+- url: https://zenodo.org
+  description: Zenodo production instance
+- url: https://sandbox.zenodo.org
+  description: Zenodo sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Communities Members
+  description: Community membership management
+paths:
+  /api/communities/{communityId}/members:
+    get:
+      summary: Search community members
+      tags:
+      - Communities Members
+      operationId: searchMembers
+      parameters:
+      - name: communityId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: role
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by role: reader, curator, manager, owner'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    post:
+      summary: Add group members to community
+      tags:
+      - Communities Members
+      operationId: addGroupMembers
+      parameters:
+      - name: communityId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              members:
+              - id: admin
+                type: group
+              role: curator
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    put:
+      summary: Update community members
+      tags:
+      - Communities Members
+      operationId: updateMembers
+      parameters:
+      - name: communityId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    delete:
+      summary: Remove members or leave community
+      tags:
+      - Communities Members
+      operationId: removeMembersLeaveCommunity
+      parameters:
+      - name: communityId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/communities/{communityId}/members/public:
+    get:
+      summary: Search public community members
+      tags:
+      - Communities Members
+      operationId: searchPublicMembers
+      parameters:
+      - name: communityId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    Created:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+    Success:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
+    BadRequest:
+      description: Bad request - invalid input parameters
+    NotFound:
+      description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
+    InternalServerError:
+      description: Internal server error
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings

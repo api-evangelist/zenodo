@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST Access OAI-PMH Sets API
+  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
+
+    '
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+- url: https://zenodo.org
+  description: Zenodo production instance
+- url: https://sandbox.zenodo.org
+  description: Zenodo sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: OAI-PMH Sets
+  description: OAI-PMH set management
+paths:
+  /api/oaipmh/sets:
+    get:
+      summary: Search OAI-PMH sets
+      tags:
+      - OAI-PMH Sets
+      operationId: searchOaipmhSets
+      parameters: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    post:
+      summary: Create an OAI-PMH set
+      tags:
+      - OAI-PMH Sets
+      operationId: createOaipmhSet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              name: my-set
+              spec: my-set
+              description: A custom set
+              search_pattern: resource_type.id:dataset
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/oaipmh/sets/{setId}:
+    get:
+      summary: Get OAI-PMH set by ID
+      tags:
+      - OAI-PMH Sets
+      operationId: getOaipmhSetById
+      parameters:
+      - name: setId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    put:
+      summary: Update an OAI-PMH set
+      tags:
+      - OAI-PMH Sets
+      operationId: updateOaipmhSet
+      parameters:
+      - name: setId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    delete:
+      summary: Delete an OAI-PMH set
+      tags:
+      - OAI-PMH Sets
+      operationId: deleteOaipmhSet
+      parameters:
+      - name: setId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+components:
+  responses:
+    Created:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+    Success:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
+    BadRequest:
+      description: Bad request - invalid input parameters
+    NotFound:
+      description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
+    InternalServerError:
+      description: Internal server error
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings

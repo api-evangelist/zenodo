@@ -1,0 +1,504 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST Access Drafts API
+  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
+
+    '
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+- url: https://zenodo.org
+  description: Zenodo production instance
+- url: https://sandbox.zenodo.org
+  description: Zenodo sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Drafts
+  description: Draft record management
+paths:
+  /api/records/{draftId}/draft:
+    get:
+      summary: Get a draft record
+      tags:
+      - Drafts
+      operationId: getADraftRecord
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    put:
+      summary: Update a draft record
+      tags:
+      - Drafts
+      operationId: updateADraftRecord
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    post:
+      summary: Edit a published record (create draft from published)
+      tags:
+      - Drafts
+      operationId: editAPublishedRecord
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    delete:
+      summary: Delete/discard a draft record
+      tags:
+      - Drafts
+      operationId: deleteADraftRecord
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/actions/publish:
+    post:
+      summary: Publish a draft record
+      tags:
+      - Drafts
+      operationId: publishADraftRecord
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/actions/files-import:
+    post:
+      summary: Link files from previous version
+      tags:
+      - Drafts
+      operationId: linkFilesFromPreviousVersion
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/review:
+    get:
+      summary: Get a review request for a draft
+      tags:
+      - Drafts
+      operationId: getAReviewRequest
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    put:
+      summary: Create or update a review request
+      tags:
+      - Drafts
+      operationId: createUpdateAReviewRequest
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              receiver:
+                community: community-id
+              type: community-submission
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    delete:
+      summary: Delete a review request
+      tags:
+      - Drafts
+      operationId: deleteAReviewRequest
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/actions/submit-review:
+    post:
+      summary: Submit a draft for community review
+      tags:
+      - Drafts
+      operationId: submitARecordForReview
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              payload:
+                content: Thank you in advance for the review.
+                format: html
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/pids/doi:
+    post:
+      summary: Reserve a DOI for a draft
+      tags:
+      - Drafts
+      operationId: reserveADoi
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    delete:
+      summary: Delete a reserved DOI
+      tags:
+      - Drafts
+      operationId: deleteADoi
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/files:
+    get:
+      summary: List draft files
+      tags:
+      - Drafts
+      operationId: listDraftFiles
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/files/{file-name}/content:
+    get:
+      summary: Download a draft file
+      tags:
+      - Drafts
+      operationId: downloadADraftFile
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: file-name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/records/{draftId}/draft/files/{file-name}:
+    get:
+      summary: Get draft file metadata
+      tags:
+      - Drafts
+      operationId: getDraftFileMetadata
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: file-name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    delete:
+      summary: Delete a draft file
+      tags:
+      - Drafts
+      operationId: deleteADraftFile
+      parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: file-name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+components:
+  responses:
+    Created:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+    Success:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
+    BadRequest:
+      description: Bad request - invalid input parameters
+    NotFound:
+      description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
+    InternalServerError:
+      description: Internal server error
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings

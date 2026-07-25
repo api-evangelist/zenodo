@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST Access Audit Logs API
+  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
+
+    '
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+- url: https://zenodo.org
+  description: Zenodo production instance
+- url: https://sandbox.zenodo.org
+  description: Zenodo sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Audit Logs
+  description: Audit log entries and search
+paths:
+  /api/audit-logs:
+    get:
+      summary: Search audit logs (admins only)
+      tags:
+      - Audit Logs
+      operationId: searchAuditLogs
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        example: newest
+      responses:
+        '200':
+          description: Successful response with audit log entries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/audit-logs/{logId}:
+    get:
+      summary: Get audit log entry by ID (admins only)
+      tags:
+      - Audit Logs
+      operationId: getAuditLogEntry
+      parameters:
+      - name: logId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Audit log entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    AuditLogList:
+      type: object
+      properties:
+        hits:
+          type: object
+          properties:
+            total:
+              type: integer
+            hits:
+              type: array
+              items:
+                $ref: '#/components/schemas/AuditLogEntry'
+        aggregations:
+          type: object
+    AuditLogEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9913abd2-1a7c-42cb-a73e-e48a9e1bf4f2
+        created:
+          type: string
+          format: date-time
+        action:
+          type: string
+          example: record.publish
+        resource:
+          type: object
+          properties:
+            type:
+              type: string
+            id:
+              type: string
+        metadata:
+          type: object
+          properties:
+            ip_address:
+              type: string
+            session:
+              type: string
+            parent_pid:
+              type: string
+            revision_id:
+              type: integer
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+            email:
+              type: string
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized - authentication required
+    BadRequest:
+      description: Bad request - invalid input parameters
+    NotFound:
+      description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
+    InternalServerError:
+      description: Internal server error
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings

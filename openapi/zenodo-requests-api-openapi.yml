@@ -1,0 +1,305 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST Access Requests API
+  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
+
+    '
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+- url: https://zenodo.org
+  description: Zenodo production instance
+- url: https://sandbox.zenodo.org
+  description: Zenodo sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Requests
+  description: Request management endpoints
+paths:
+  /api/requests:
+    get:
+      summary: Search requests
+      tags:
+      - Requests
+      operationId: searchRequests
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/requests/{requestId}:
+    get:
+      summary: Get a request
+      tags:
+      - Requests
+      operationId: getARequest
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    put:
+      summary: Update a request
+      tags:
+      - Requests
+      operationId: updateARequest
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/requests/{requestId}/comments:
+    post:
+      summary: Submit a comment on a request
+      tags:
+      - Requests
+      operationId: submitACommentOnARequest
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              payload:
+                content: My comment text.
+                format: html
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/requests/{requestId}/comments/{comment_id}:
+    get:
+      summary: Get a comment
+      tags:
+      - Requests
+      operationId: getAComment
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    put:
+      summary: Update a comment
+      tags:
+      - Requests
+      operationId: updateAComment
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+    delete:
+      summary: Delete a comment
+      tags:
+      - Requests
+      operationId: deleteAComment
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+  /api/requests/{requestId}/timeline:
+    get:
+      summary: Get request timeline
+      tags:
+      - Requests
+      operationId: getRequestTimeline
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+      - BearerAuth: []
+components:
+  responses:
+    Created:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+    Success:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
+    BadRequest:
+      description: Bad request - invalid input parameters
+    NotFound:
+      description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
+    InternalServerError:
+      description: Internal server error
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings

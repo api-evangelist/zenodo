@@ -1,0 +1,326 @@
+openapi: 3.0.3
+info:
+  title: Zenodo REST Access Vocabularies API
+  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
+
+    '
+  version: 12.0.0
+  contact:
+    name: Zenodo Developer Documentation
+    url: https://developers.zenodo.org/
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  x-upstream-spec: https://github.com/inveniosoftware/invenio-openapi
+servers:
+- url: https://zenodo.org
+  description: Zenodo production instance
+- url: https://sandbox.zenodo.org
+  description: Zenodo sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Vocabularies
+  description: Vocabulary and controlled terms endpoints
+paths:
+  /api/vocabularies/{vocabularies-type}:
+    get:
+      summary: Search vocabularies by type
+      tags:
+      - Vocabularies
+      operationId: searchVocabularies
+      parameters:
+      - name: vocabularies-type
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Vocabulary type e.g. resourcetypes, languages, licenses, relationtypes
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: suggest
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/vocabularies/{vocabularies-type}/{vocabulariesId}:
+    get:
+      summary: Get vocabulary record by ID
+      tags:
+      - Vocabularies
+      operationId: getVocabularyRecordById
+      parameters:
+      - name: vocabularies-type
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: vocabulariesId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/funders:
+    get:
+      summary: Search funders vocabulary
+      tags:
+      - Vocabularies
+      operationId: searchFunders
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: suggest
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/funders/{vocFundersId}:
+    get:
+      summary: Get funder by ID
+      tags:
+      - Vocabularies
+      operationId: getFunderById
+      parameters:
+      - name: vocFundersId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/awards:
+    get:
+      summary: Search awards vocabulary
+      tags:
+      - Vocabularies
+      operationId: searchAwards
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: suggest
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/awards/{vocAwardsId}:
+    get:
+      summary: Get award by ID
+      tags:
+      - Vocabularies
+      operationId: getAwardById
+      parameters:
+      - name: vocAwardsId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/names:
+    get:
+      summary: Search names vocabulary
+      tags:
+      - Vocabularies
+      operationId: searchNames
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: suggest
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/names/{vocNamesId}:
+    get:
+      summary: Get name vocabulary entry by ID
+      tags:
+      - Vocabularies
+      operationId: getNameById
+      parameters:
+      - name: vocNamesId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/affiliations:
+    get:
+      summary: Search affiliations vocabulary
+      tags:
+      - Vocabularies
+      operationId: searchAffiliations
+      parameters: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/affiliations/{vocAffiliationId}:
+    get:
+      summary: Get affiliation by ID
+      tags:
+      - Vocabularies
+      operationId: getAffiliationById
+      parameters:
+      - name: vocAffiliationId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/subjects:
+    get:
+      summary: Search subjects vocabulary
+      tags:
+      - Vocabularies
+      operationId: searchSubjects
+      parameters:
+      - name: suggest
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/subjects/{vocSubjectsId}:
+    get:
+      summary: Get subject by ID
+      tags:
+      - Vocabularies
+      operationId: getSubjectById
+      parameters:
+      - name: vocSubjectsId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    Success:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+    NotFound:
+      description: Not found - resource does not exist
+    InternalServerError:
+      description: Internal server error
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Personal access token issued from the Zenodo account settings
