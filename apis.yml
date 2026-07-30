@@ -11,7 +11,20 @@ description: >
   for metadata harvesting. The platform is built on InvenioRDM and stores all data
   at the CERN Data Centre with replicas and nightly tape backups.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/zenodo.png
 tags:
   - Research
   - Open Data
@@ -31,51 +44,358 @@ modified: '2026-06-12'
 specificationVersion: '0.19'
 
 apis:
-
-  - aid: zenodo-rest-api
-    name: Zenodo REST API
-    description: >
-      The primary REST API for Zenodo allowing programmatic deposit creation,
-      file upload, record publication, and record search and retrieval.
-      Supports personal access token authentication via OAuth 2.0 Bearer tokens.
-      Provides endpoints for deposits, records, files, communities, funders,
-      grants, and licenses.
-    humanURL: https://developers.zenodo.org/
-    baseURL: https://zenodo.org/api
-    tags:
-      - Deposits
-      - Records
-      - Files
-      - Communities
-      - Funders
-      - Grants
-      - Licenses
-      - DOI
-    properties:
-      - type: Documentation
-        url: https://developers.zenodo.org/
-      - type: Sandbox
-        url: https://sandbox.zenodo.org
-      - type: OpenAPI
-        url: openapi/zenodo-rest-api-openapi.yml
-
-  - aid: zenodo-oai-pmh-api
-    name: Zenodo OAI-PMH API
-    description: >
-      Open Archives Initiative Protocol for Metadata Harvesting endpoint that
-      allows bulk harvesting of Zenodo metadata in formats including oai_dc,
-      marcxml, and oai_datacite4. Supports selective harvesting by community.
-    humanURL: https://developers.zenodo.org/#oai-pmh
-    baseURL: https://zenodo.org/oai2d
-    tags:
-      - Metadata
-      - Harvesting
-      - OAI-PMH
-      - DataCite
-    properties:
-      - type: Documentation
-        url: https://developers.zenodo.org/#oai-pmh
-
+- aid: zenodo-oai-pmh-api
+  name: Zenodo OAI-PMH API
+  description: >
+    Open Archives Initiative Protocol for Metadata Harvesting endpoint that allows bulk harvesting of
+    Zenodo metadata in formats including oai_dc, marcxml, and oai_datacite4. Supports selective harvesting
+    by community.
+  humanURL: https://developers.zenodo.org/#oai-pmh
+  baseURL: https://zenodo.org/oai2d
+  tags:
+  - Metadata
+  - Harvesting
+  - OAI-PMH
+  - DataCite
+  properties:
+  - type: Documentation
+    url: https://developers.zenodo.org/#oai-pmh
+- aid: zenodo:zenodo-access-api
+  name: Zenodo Access API
+  description: Access control and sharing
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Access
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-access-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-audit-logs-api
+  name: Zenodo Audit Logs API
+  description: Audit log entries and search
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Audit Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-audit-logs-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-avatars-api
+  name: Zenodo Avatars API
+  description: User and group avatars
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Avatars
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-avatars-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-comments-api
+  name: Zenodo Comments API
+  description: Request comments and discussions
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-comments-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-communities-api
+  name: Zenodo Communities API
+  description: Community management endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Communities
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-communities-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-communities-invitations-api
+  name: Zenodo Communities Invitations API
+  description: Community invitation management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Communities Invitations
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-communities-invitations-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-communities-logo-api
+  name: Zenodo Communities logo API
+  description: Community logo management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Communities logo
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-communities-logo-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-communities-members-api
+  name: Zenodo Communities Members API
+  description: Community membership management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Communities Members
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-communities-members-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-drafts-api
+  name: Zenodo Drafts API
+  description: Draft record management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Drafts
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-drafts-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-drafts-files-upload-api
+  name: Zenodo Drafts Files upload API
+  description: Draft file upload workflow
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Drafts Files upload
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-drafts-files-upload-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-export-api
+  name: Zenodo Export API
+  description: Record export functionality
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Export
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-export-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-featured-communities-api
+  name: Zenodo Featured Communities API
+  description: Featured communities management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Featured Communities
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-featured-communities-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-groups-api
+  name: Zenodo Groups API
+  description: Group management endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-oai-pmh-api
+  name: Zenodo OAI-PMH API
+  description: OAI-PMH protocol endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - OAI-PMH
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-oai-pmh-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-oai-pmh-sets-api
+  name: Zenodo OAI-PMH Sets API
+  description: OAI-PMH set management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - OAI-PMH Sets
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-oai-pmh-sets-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-records-api
+  name: Zenodo Records API
+  description: Record and draft management endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Records
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-records-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-records-files-api
+  name: Zenodo Records Files API
+  description: File management operations on published records
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Records Files
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-records-files-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-records-versions-api
+  name: Zenodo Records Versions API
+  description: Record version management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Records Versions
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-records-versions-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-request-actions-api
+  name: Zenodo Request Actions API
+  description: Request actions and lifecycle management
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Request Actions
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-request-actions-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-requests-api
+  name: Zenodo Requests API
+  description: Request management endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-requests-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-statistics-api
+  name: Zenodo Statistics API
+  description: Statistics and analytics endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Statistics
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-statistics-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-timeline-api
+  name: Zenodo Timeline API
+  description: Request timeline and history
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Timeline
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-timeline-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-users-api
+  name: Zenodo Users API
+  description: User management endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-users-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
+- aid: zenodo:zenodo-vocabularies-api
+  name: Zenodo Vocabularies API
+  description: Vocabulary and controlled terms endpoints
+  humanURL: https://developers.zenodo.org/
+  baseURL: https://zenodo.org/api
+  tags:
+  - Vocabularies
+  properties:
+  - type: OpenAPI
+    url: openapi/zenodo-vocabularies-api-openapi.yml
+  - type: Documentation
+    url: https://developers.zenodo.org/
+  - type: Sandbox
+    url: https://sandbox.zenodo.org
 common:
 
   - type: AgenticAccess
