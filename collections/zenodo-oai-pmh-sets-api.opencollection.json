@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access OAI-PMH Sets API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OAI-PMH Sets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search OAI-PMH sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/oaipmh/sets",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search OAI-PMH sets"
+        },
+        {
+          "info": {
+            "name": "Create an OAI-PMH set",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/oaipmh/sets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an OAI-PMH set"
+        },
+        {
+          "info": {
+            "name": "Get OAI-PMH set by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/oaipmh/sets/:setId",
+            "params": [
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get OAI-PMH set by ID"
+        },
+        {
+          "info": {
+            "name": "Update an OAI-PMH set",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://zenodo.org/api/oaipmh/sets/:setId",
+            "params": [
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an OAI-PMH set"
+        },
+        {
+          "info": {
+            "name": "Delete an OAI-PMH set",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/oaipmh/sets/:setId",
+            "params": [
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an OAI-PMH set"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

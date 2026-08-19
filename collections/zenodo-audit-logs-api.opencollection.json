@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Audit Logs API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Audit Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search audit logs (admins only)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/audit-logs",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "newest",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search audit logs (admins only)"
+        },
+        {
+          "info": {
+            "name": "Get audit log entry by ID (admins only)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/audit-logs/:logId",
+            "params": [
+              {
+                "name": "logId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get audit log entry by ID (admins only)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

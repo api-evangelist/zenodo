@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Records Versions API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Records Versions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all versions of a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/versions",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all versions of a record"
+        },
+        {
+          "info": {
+            "name": "Create a new record version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:recordId/versions",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new record version"
+        },
+        {
+          "info": {
+            "name": "Get the latest version of a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/versions/latest",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the latest version of a record"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

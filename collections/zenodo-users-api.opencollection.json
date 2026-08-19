@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Users API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/users",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search users"
+        },
+        {
+          "info": {
+            "name": "Get user by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get user by ID"
+        },
+        {
+          "info": {
+            "name": "Get user avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/users/:userId/avatar.svg",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get user avatar"
+        },
+        {
+          "info": {
+            "name": "Search user's communities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/user/communities",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search user's communities"
+        },
+        {
+          "info": {
+            "name": "Get all draft records for current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/user/records",
+            "params": [
+              {
+                "name": "q",
+                "value": "is_published:false",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all draft records for current user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,403 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Drafts API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Drafts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a draft record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:draftId/draft",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a draft record"
+        },
+        {
+          "info": {
+            "name": "Edit a published record (create draft from published)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:draftId/draft",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Edit a published record (create draft from published)"
+        },
+        {
+          "info": {
+            "name": "Update a draft record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://zenodo.org/api/records/:draftId/draft",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a draft record"
+        },
+        {
+          "info": {
+            "name": "Delete/discard a draft record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/records/:draftId/draft",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete/discard a draft record"
+        },
+        {
+          "info": {
+            "name": "Publish a draft record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:draftId/draft/actions/publish",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Publish a draft record"
+        },
+        {
+          "info": {
+            "name": "Link files from previous version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:draftId/draft/actions/files-import",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Link files from previous version"
+        },
+        {
+          "info": {
+            "name": "Get a review request for a draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:draftId/draft/review",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a review request for a draft"
+        },
+        {
+          "info": {
+            "name": "Create or update a review request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://zenodo.org/api/records/:draftId/draft/review",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create or update a review request"
+        },
+        {
+          "info": {
+            "name": "Delete a review request",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/records/:draftId/draft/review",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a review request"
+        },
+        {
+          "info": {
+            "name": "Submit a draft for community review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:draftId/draft/actions/submit-review",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Submit a draft for community review"
+        },
+        {
+          "info": {
+            "name": "Reserve a DOI for a draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:draftId/draft/pids/doi",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reserve a DOI for a draft"
+        },
+        {
+          "info": {
+            "name": "Delete a reserved DOI",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/records/:draftId/draft/pids/doi",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a reserved DOI"
+        },
+        {
+          "info": {
+            "name": "List draft files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:draftId/draft/files",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List draft files"
+        },
+        {
+          "info": {
+            "name": "Download a draft file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:draftId/draft/files/:file-name/content",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "file-name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download a draft file"
+        },
+        {
+          "info": {
+            "name": "Get draft file metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:draftId/draft/files/:file-name",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "file-name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get draft file metadata"
+        },
+        {
+          "info": {
+            "name": "Delete a draft file",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/records/:draftId/draft/files/:file-name",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "file-name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a draft file"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

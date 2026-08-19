@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Export API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export record as JSON",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/export/json",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Export record as JSON"
+        },
+        {
+          "info": {
+            "name": "Export record as Dublin Core XML",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/export/dublincore",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Export record as Dublin Core XML"
+        },
+        {
+          "info": {
+            "name": "Export record as DataCite XML",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/export/datacite-xml",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Export record as DataCite XML"
+        },
+        {
+          "info": {
+            "name": "Export record as DataCite JSON",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/export/datacite-json",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Export record as DataCite JSON"
+        },
+        {
+          "info": {
+            "name": "Export record as CSL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/export/csl",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Export record as CSL"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

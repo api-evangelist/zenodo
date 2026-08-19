@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Communities Members API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Communities Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search community members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/communities/:communityId/members",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "role",
+                "value": "",
+                "type": "query",
+                "description": "Filter by role: reader, curator, manager, owner"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search community members"
+        },
+        {
+          "info": {
+            "name": "Add group members to community",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/communities/:communityId/members",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add group members to community"
+        },
+        {
+          "info": {
+            "name": "Update community members",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://zenodo.org/api/communities/:communityId/members",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update community members"
+        },
+        {
+          "info": {
+            "name": "Remove members or leave community",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/communities/:communityId/members",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove members or leave community"
+        },
+        {
+          "info": {
+            "name": "Search public community members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/communities/:communityId/members/public",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search public community members"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

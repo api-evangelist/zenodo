@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Communities logo API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Communities logo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get community logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/communities/:communityId/logo",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get community logo"
+        },
+        {
+          "info": {
+            "name": "Update community logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://zenodo.org/api/communities/:communityId/logo",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update community logo"
+        },
+        {
+          "info": {
+            "name": "Delete community logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/communities/:communityId/logo",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete community logo"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

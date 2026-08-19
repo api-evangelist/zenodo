@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Drafts Files upload API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Drafts Files upload",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Step 1: Start draft file uploads",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:draftId/draft/files",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Step 1: Start draft file uploads"
+        },
+        {
+          "info": {
+            "name": "Step 2: Upload draft file content",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://zenodo.org/api/records/:draftId/draft/files/:file-name/content",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "file-name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Step 2: Upload draft file content"
+        },
+        {
+          "info": {
+            "name": "Step 3: Complete a draft file upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:draftId/draft/files/:file-name/commit",
+            "params": [
+              {
+                "name": "draftId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "file-name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Step 3: Complete a draft file upload"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access OAI-PMH API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OAI-PMH",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get OAI-PMH metadata formats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/oaipmh/formats"
+          },
+          "docs": "Get OAI-PMH metadata formats"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,304 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Vocabularies API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Vocabularies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search vocabularies by type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/vocabularies/:vocabularies-type",
+            "params": [
+              {
+                "name": "vocabularies-type",
+                "value": "",
+                "type": "path",
+                "description": "Vocabulary type e.g. resourcetypes, languages, licenses, relationtypes"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "suggest",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search vocabularies by type"
+        },
+        {
+          "info": {
+            "name": "Get vocabulary record by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/vocabularies/:vocabularies-type/:vocabulariesId",
+            "params": [
+              {
+                "name": "vocabularies-type",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "vocabulariesId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get vocabulary record by ID"
+        },
+        {
+          "info": {
+            "name": "Search funders vocabulary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/funders",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "suggest",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search funders vocabulary"
+        },
+        {
+          "info": {
+            "name": "Get funder by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/funders/:vocFundersId",
+            "params": [
+              {
+                "name": "vocFundersId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get funder by ID"
+        },
+        {
+          "info": {
+            "name": "Search awards vocabulary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/awards",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "suggest",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search awards vocabulary"
+        },
+        {
+          "info": {
+            "name": "Get award by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/awards/:vocAwardsId",
+            "params": [
+              {
+                "name": "vocAwardsId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get award by ID"
+        },
+        {
+          "info": {
+            "name": "Search names vocabulary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/names",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "suggest",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search names vocabulary"
+        },
+        {
+          "info": {
+            "name": "Get name vocabulary entry by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/names/:vocNamesId",
+            "params": [
+              {
+                "name": "vocNamesId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get name vocabulary entry by ID"
+        },
+        {
+          "info": {
+            "name": "Search affiliations vocabulary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/affiliations"
+          },
+          "docs": "Search affiliations vocabulary"
+        },
+        {
+          "info": {
+            "name": "Get affiliation by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/affiliations/:vocAffiliationId",
+            "params": [
+              {
+                "name": "vocAffiliationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get affiliation by ID"
+        },
+        {
+          "info": {
+            "name": "Search subjects vocabulary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/subjects",
+            "params": [
+              {
+                "name": "suggest",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search subjects vocabulary"
+        },
+        {
+          "info": {
+            "name": "Get subject by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/subjects/:vocSubjectsId",
+            "params": [
+              {
+                "name": "vocSubjectsId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get subject by ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

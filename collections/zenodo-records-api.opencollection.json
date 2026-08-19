@@ -1,0 +1,264 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zenodo REST Access Records API",
+    "version": "12.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Records",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query using ElasticSearch query string syntax."
+              },
+              {
+                "name": "sort",
+                "value": "newest",
+                "type": "query",
+                "description": "Sort results. Options: bestmatch, newest, oldest, updated-desc, updated-asc, version, mostviewed, mostdownloaded.\n"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page (default 10)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number."
+              },
+              {
+                "name": "allversions",
+                "value": "True",
+                "type": "query",
+                "description": "Include all versions (default False)."
+              }
+            ]
+          },
+          "docs": "Search records"
+        },
+        {
+          "info": {
+            "name": "Create a draft record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a draft record"
+        },
+        {
+          "info": {
+            "name": "Get a record by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path",
+                "description": "Unique record identifier"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a record by ID"
+        },
+        {
+          "info": {
+            "name": "Remove a record from a community",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/records/:recordId/communities",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove a record from a community"
+        },
+        {
+          "info": {
+            "name": "List access links",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/access/links",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List access links"
+        },
+        {
+          "info": {
+            "name": "Create an access link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://zenodo.org/api/records/:recordId/access/links",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an access link"
+        },
+        {
+          "info": {
+            "name": "Get an access link by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zenodo.org/api/records/:recordId/access/links/:linkId",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an access link by ID"
+        },
+        {
+          "info": {
+            "name": "Update an access link",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://zenodo.org/api/records/:recordId/access/links/:linkId",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an access link"
+        },
+        {
+          "info": {
+            "name": "Delete an access link",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://zenodo.org/api/records/:recordId/access/links/:linkId",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an access link"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
