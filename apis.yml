@@ -234,6 +234,8 @@ apis:
   humanURL: https://developers.zenodo.org/
   baseURL: https://zenodo.org/api
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -360,6 +362,8 @@ apis:
   humanURL: https://developers.zenodo.org/
   baseURL: https://zenodo.org/api
   tags:
+  - Timelines
+  tags_raw:
   - Timeline
   properties:
   - type: OpenAPI
@@ -374,6 +378,8 @@ apis:
   humanURL: https://developers.zenodo.org/
   baseURL: https://zenodo.org/api
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
