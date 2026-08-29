@@ -415,6 +415,9 @@ apis:
   - type: Sandbox
     url: https://sandbox.zenodo.org
 common:
+  - type: CapabilityMap
+    url: capabilities/zenodo-capability-edges.yml
+    name: Zenodo Business Capability Map
 
   - type: AgenticAccess
     url: agentic-access/zenodo-agentic-access.yml

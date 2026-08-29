@@ -1,0 +1,56 @@
+slug: zenodo
+provider: Zenodo
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Education
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Drafts
+  spec_file: zenodo-drafts-api-openapi.yml
+  capability_id: BC-4780.40
+  capability_id_l1: BC-4780
+  capability_name: Scholarly Output & Publication Management
+  confidence: 0.8
+  evidence: POST /api/records/{draftId}/draft/actions/publish  publishADraftRecord  Publish a draft record;
+    POST /api/records/{draftId}/draft/pids/doi  reserveADoi  Reserve a DOI for a draft
+  reason: Operations author, review, publish and DOI-reserve deposit records of research output in an
+    open research repository — matching stewardship of scholarly output including publications, open access
+    and persistent identifiers. Some ambiguity remains as the surface is also a general content-publishing
+    workflow.
+- tag: Records
+  spec_file: zenodo-records-api-openapi.yml
+  capability_id: BC-4780.40
+  capability_id_l1: BC-4780
+  capability_name: Scholarly Output & Publication Management
+  confidence: 0.8
+  evidence: POST /api/records  createADraftRecord  Create a draft record ... GET /api/records  searchRecords
+  reason: Records are the deposited research outputs (datasets, papers, software) that receive DOIs; creating,
+    searching and controlling access to them is stewardship of scholarly output including persistent identifiers.
+- tag: Export
+  spec_file: zenodo-export-api-openapi.yml
+  capability_id: BC-4780.40
+  capability_id_l1: BC-4780
+  capability_name: Scholarly Output & Publication Management
+  confidence: 0.75
+  evidence: GET /api/records/{recordId}/export/datacite-xml  exportRecordAsDataCiteXml  Export record
+    as DataCite XML
+  reason: Exporting deposited research records in DataCite, Dublin Core and CSL (citation) formats is
+    metadata dissemination and citation support for scholarly output and its persistent identifiers (DOIs),
+    matching Scholarly Output & Publication Management.
+- tag: Records Versions
+  spec_file: zenodo-records-versions-api-openapi.yml
+  capability_id: BC-4780.40
+  capability_id_l1: BC-4780
+  capability_name: Scholarly Output & Publication Management
+  confidence: 0.72
+  evidence: POST /api/records/{recordId}/versions  createANewVersion  Create a new record version
+  reason: Versioning of published research records (with version-specific DOIs) is part of tracking and
+    stewarding scholarly output over time.
