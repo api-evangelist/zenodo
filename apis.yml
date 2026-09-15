@@ -1,15 +1,14 @@
 aid: zenodo
 name: Zenodo
-description: >
-  Zenodo is a free, open research data repository operated by CERN and co-developed
-  under the European OpenAIRE program. It enables researchers to deposit, share, and
-  preserve any research output — including datasets, software, papers, preprints,
-  presentations, and multimedia — regardless of format, size, or discipline. Every
-  upload receives a Digital Object Identifier (DOI) for persistent citation and
-  discoverability. Zenodo provides a REST API for programmatic deposit management,
-  record search and retrieval, and file management, as well as an OAI-PMH endpoint
-  for metadata harvesting. The platform is built on InvenioRDM and stores all data
-  at the CERN Data Centre with replicas and nightly tape backups.
+description: 'Zenodo is a free, open research data repository operated by CERN and co-developed under
+  the European OpenAIRE program. It enables researchers to deposit, share, and preserve any research output
+  — including datasets, software, papers, preprints, presentations, and multimedia — regardless of format,
+  size, or discipline. Every upload receives a Digital Object Identifier (DOI) for persistent citation
+  and discoverability. Zenodo provides a REST API for programmatic deposit management, record search and
+  retrieval, and file management, as well as an OAI-PMH endpoint for metadata harvesting. The platform
+  is built on InvenioRDM and stores all data at the CERN Data Centre with replicas and nightly tape backups.
+
+  '
 type: Index
 deliveryModel:
   model: saas
@@ -39,30 +38,30 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/zenodo.png
 tags:
-  - Research
-  - Open Data
-  - Repository
-  - DOI
-  - Datasets
-  - Software
-  - CERN
-  - OpenAIRE
-  - InvenioRDM
-  - Open Science
-  - Metadata
-  - Harvesting
+- Research
+- Open Data
+- Repository
+- DOI
+- Datasets
+- Software
+- CERN
+- OpenAIRE
+- InvenioRDM
+- Open Science
+- Metadata
+- Harvesting
 url: https://raw.githubusercontent.com/api-evangelist/zenodo/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'
 specificationVersion: '0.23'
-
 apis:
-- aid: zenodo-oai-pmh-api
+- aid: zenodo:zenodo-oai-pmh-api
   name: Zenodo OAI-PMH API
-  description: >
-    Open Archives Initiative Protocol for Metadata Harvesting endpoint that allows bulk harvesting of
-    Zenodo metadata in formats including oai_dc, marcxml, and oai_datacite4. Supports selective harvesting
+  description: 'Open Archives Initiative Protocol for Metadata Harvesting endpoint that allows bulk harvesting
+    of Zenodo metadata in formats including oai_dc, marcxml, and oai_datacite4. Supports selective harvesting
     by community.
+
+    '
   humanURL: https://developers.zenodo.org/#oai-pmh
   baseURL: https://zenodo.org/oai2d
   tags:
@@ -416,64 +415,47 @@ apis:
   - type: Sandbox
     url: https://sandbox.zenodo.org
 common:
-  - type: CapabilityMap
-    url: capabilities/zenodo-capability-edges.yml
-    name: Zenodo Business Capability Map
-
-  - type: AgenticAccess
-    url: agentic-access/zenodo-agentic-access.yml
-  - type: DomainSecurity
-    url: security/zenodo-domain-security.yml
-  - type: Authentication
-    url: authentication/zenodo-authentication.yml
-  - type: Website
-    url: https://zenodo.org/
-
-  - type: Documentation
-    url: https://help.zenodo.org/docs/
-
-  - type: DeveloperPortal
-    url: https://developers.zenodo.org/
-
-  - type: GitHubOrganization
-    url: https://github.com/zenodo
-
-  - type: Blog
-    url: https://blog.zenodo.org/
-
-  - type: StatusPage
-    url: https://stats.uptimerobot.com/vlYOVuWgM/
-
-  - type: X
-    url: https://x.com/ZENODO_ORG
-
-  - type: Support
-    url: https://support.zenodo.org/
-
-  - type: About
-    url: https://about.zenodo.org/
-
-  - type: Plans
-    url: plans/zenodo-plans-pricing.yml
-
-  - type: RateLimits
-    url: rate-limits/zenodo-rate-limits.yml
-
-  - type: FinOps
-    url: finops/zenodo-finops.yml
-
-  - type: JSONSchema
-    url: json-schema/zenodo-record-schema.json
-
-  - type: Vocabulary
-    url: vocabulary/zenodo-vocabulary.yml
-
-  - type: JSONLDContext
-    url: json-ld/zenodo-context.jsonld
-
-  - type: Examples
-    url: examples/zenodo-create-record-example.json
-
+- type: CapabilityMap
+  url: capabilities/zenodo-capability-edges.yml
+  name: Zenodo Business Capability Map
+- type: AgenticAccess
+  url: agentic-access/zenodo-agentic-access.yml
+- type: DomainSecurity
+  url: security/zenodo-domain-security.yml
+- type: Authentication
+  url: authentication/zenodo-authentication.yml
+- type: Website
+  url: https://zenodo.org/
+- type: Documentation
+  url: https://help.zenodo.org/docs/
+- type: DeveloperPortal
+  url: https://developers.zenodo.org/
+- type: GitHubOrganization
+  url: https://github.com/zenodo
+- type: Blog
+  url: https://blog.zenodo.org/
+- type: StatusPage
+  url: https://stats.uptimerobot.com/vlYOVuWgM/
+- type: X
+  url: https://x.com/ZENODO_ORG
+- type: Support
+  url: https://support.zenodo.org/
+- type: About
+  url: https://about.zenodo.org/
+- type: Plans
+  url: plans/zenodo-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/zenodo-rate-limits.yml
+- type: FinOps
+  url: finops/zenodo-finops.yml
+- type: JSONSchema
+  url: json-schema/zenodo-record-schema.json
+- type: Vocabulary
+  url: vocabulary/zenodo-vocabulary.yml
+- type: JSONLDContext
+  url: json-ld/zenodo-context.jsonld
+- type: Examples
+  url: examples/zenodo-create-record-example.json
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
