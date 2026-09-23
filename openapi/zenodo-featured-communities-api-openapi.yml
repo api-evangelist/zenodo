@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Zenodo REST Access Featured Communities API
-  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
-
-    '
+  title: Zenodo REST Featured Communities API
+  description: REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
   version: 12.0.0
   contact:
     name: Zenodo Developer Documentation
@@ -103,26 +101,26 @@ paths:
       - BearerAuth: []
 components:
   responses:
-    Created:
-      description: Resource created successfully
-      content:
-        application/json:
-          schema:
-            type: object
+    Forbidden:
+      description: Forbidden - insufficient permissions
     Success:
       description: Successful response
       content:
         application/json:
           schema:
             type: object
-    Unauthorized:
-      description: Unauthorized - authentication required
-    NotFound:
-      description: Not found - resource does not exist
-    Forbidden:
-      description: Forbidden - insufficient permissions
     InternalServerError:
       description: Internal server error
+    NotFound:
+      description: Not found - resource does not exist
+    Created:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
   securitySchemes:
     BearerAuth:
       type: http

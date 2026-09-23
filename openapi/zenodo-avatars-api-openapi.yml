@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Zenodo REST Access Avatars API
-  description: 'REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
-
-    '
+  title: Zenodo REST Avatars API
+  description: REST API for Zenodo, the free open research data repository operated by CERN and built on InvenioRDM. Provides programmatic access to deposits (draft records), published records, file management, communities, vocabularies, OAI-PMH sets, requests, users, groups, statistics, and audit logs. Every published record receives a DOI for persistent citation. Authenticate with a personal access token passed as a Bearer token.
   version: 12.0.0
   contact:
     name: Zenodo Developer Documentation
@@ -63,16 +61,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    InternalServerError:
+      description: Internal server error
+    NotFound:
+      description: Not found - resource does not exist
     Success:
       description: Successful response
       content:
         application/json:
           schema:
             type: object
-    NotFound:
-      description: Not found - resource does not exist
-    InternalServerError:
-      description: Internal server error
   securitySchemes:
     BearerAuth:
       type: http
