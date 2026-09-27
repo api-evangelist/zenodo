@@ -51,28 +51,15 @@ tags:
 - Metadata
 - Harvesting
 - Research Data
+- Data Catalog
+- OAI-PMH
+- Research Repository
+- Open Access
 url: https://raw.githubusercontent.com/api-evangelist/zenodo/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'
 specificationVersion: '0.23'
 apis:
-- aid: zenodo:zenodo-oai-pmh-api
-  name: Zenodo OAI-PMH API
-  description: 'Open Archives Initiative Protocol for Metadata Harvesting endpoint that allows bulk harvesting
-    of Zenodo metadata in formats including oai_dc, marcxml, and oai_datacite4. Supports selective harvesting
-    by community.
-
-    '
-  humanURL: https://developers.zenodo.org/#oai-pmh
-  baseURL: https://zenodo.org/oai2d
-  tags:
-  - Metadata
-  - Harvesting
-  - OAI-PMH
-  - DataCite
-  properties:
-  - type: Documentation
-    url: https://developers.zenodo.org/#oai-pmh
 - aid: zenodo:zenodo-access-api
   name: Zenodo Access API
   description: Access control and sharing
@@ -135,6 +122,8 @@ apis:
   humanURL: https://developers.zenodo.org/
   baseURL: https://zenodo.org/api
   tags:
+  - Community
+  tags_raw:
   - Communities
   properties:
   - type: OpenAPI
@@ -259,11 +248,18 @@ apis:
     url: https://sandbox.zenodo.org
 - aid: zenodo:zenodo-oai-pmh-api
   name: Zenodo OAI-PMH API
-  description: OAI-PMH protocol endpoints
-  humanURL: https://developers.zenodo.org/
-  baseURL: https://zenodo.org/api
+  description: 'Open Archives Initiative Protocol for Metadata Harvesting endpoint that allows bulk harvesting
+    of Zenodo metadata in formats including oai_dc, marcxml, and oai_datacite4. Supports selective harvesting
+    by community.
+
+    '
+  humanURL: https://developers.zenodo.org/#oai-pmh
+  baseURL: https://zenodo.org/oai2d
   tags:
   - OAI-PMH
+  - Metadata
+  - Harvesting
+  - DataCite
   properties:
   - type: OpenAPI
     url: openapi/zenodo-oai-pmh-api-openapi.yml
@@ -271,6 +267,8 @@ apis:
     url: https://developers.zenodo.org/
   - type: Sandbox
     url: https://sandbox.zenodo.org
+  - type: Documentation
+    url: https://developers.zenodo.org/#oai-pmh
 - aid: zenodo:zenodo-oai-pmh-sets-api
   name: Zenodo OAI-PMH Sets API
   description: OAI-PMH set management

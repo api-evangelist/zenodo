@@ -134,22 +134,22 @@ paths:
       - BearerAuth: []
 components:
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
+    Unauthorized:
+      description: Unauthorized - authentication required
+    NotFound:
+      description: Not found - resource does not exist
     BadRequest:
       description: Bad request - invalid input parameters
     InternalServerError:
       description: Internal server error
-    NotFound:
-      description: Not found - resource does not exist
     Created:
       description: Resource created successfully
       content:
         application/json:
           schema:
             type: object
-    Unauthorized:
-      description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
   securitySchemes:
     BearerAuth:
       type: http
