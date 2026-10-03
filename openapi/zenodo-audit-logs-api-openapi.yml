@@ -158,14 +158,14 @@ components:
   responses:
     Unauthorized:
       description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
     NotFound:
       description: Not found - resource does not exist
     BadRequest:
       description: Bad request - invalid input parameters
     InternalServerError:
       description: Internal server error
-    Forbidden:
-      description: Forbidden - insufficient permissions
   securitySchemes:
     BearerAuth:
       type: http

@@ -91,20 +91,20 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    Unauthorized:
-      description: Unauthorized - authentication required
     Success:
       description: Successful response
       content:
         application/json:
           schema:
             type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
     NotFound:
       description: Not found - resource does not exist
     InternalServerError:
       description: Internal server error
-    Forbidden:
-      description: Forbidden - insufficient permissions
   securitySchemes:
     BearerAuth:
       type: http

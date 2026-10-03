@@ -99,28 +99,28 @@ paths:
       - BearerAuth: []
 components:
   responses:
-    Unauthorized:
-      description: Unauthorized - authentication required
     Success:
       description: Successful response
       content:
         application/json:
           schema:
             type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
     NotFound:
       description: Not found - resource does not exist
-    BadRequest:
-      description: Bad request - invalid input parameters
-    InternalServerError:
-      description: Internal server error
     Created:
       description: Resource created successfully
       content:
         application/json:
           schema:
             type: object
-    Forbidden:
-      description: Forbidden - insufficient permissions
+    BadRequest:
+      description: Bad request - invalid input parameters
+    InternalServerError:
+      description: Internal server error
   securitySchemes:
     BearerAuth:
       type: http
