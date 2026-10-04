@@ -109,10 +109,10 @@ components:
             type: object
     Unauthorized:
       description: Unauthorized - authentication required
-    Forbidden:
-      description: Forbidden - insufficient permissions
     NotFound:
       description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
     BadRequest:
       description: Bad request - invalid input parameters
     InternalServerError:

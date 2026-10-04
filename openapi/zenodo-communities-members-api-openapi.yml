@@ -176,6 +176,12 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    Created:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
     Success:
       description: Successful response
       content:
@@ -184,20 +190,14 @@ components:
             type: object
     Unauthorized:
       description: Unauthorized - authentication required
-    Forbidden:
-      description: Forbidden - insufficient permissions
     NotFound:
       description: Not found - resource does not exist
-    Created:
-      description: Resource created successfully
-      content:
-        application/json:
-          schema:
-            type: object
-    InternalServerError:
-      description: Internal server error
+    Forbidden:
+      description: Forbidden - insufficient permissions
     BadRequest:
       description: Bad request - invalid input parameters
+    InternalServerError:
+      description: Internal server error
   securitySchemes:
     BearerAuth:
       type: http

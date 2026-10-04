@@ -107,18 +107,18 @@ components:
         application/json:
           schema:
             type: object
-    Unauthorized:
-      description: Unauthorized - authentication required
-    Forbidden:
-      description: Forbidden - insufficient permissions
-    NotFound:
-      description: Not found - resource does not exist
     Created:
       description: Resource created successfully
       content:
         application/json:
           schema:
             type: object
+    Unauthorized:
+      description: Unauthorized - authentication required
+    NotFound:
+      description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
     InternalServerError:
       description: Internal server error
   securitySchemes:

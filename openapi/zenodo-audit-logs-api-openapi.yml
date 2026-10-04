@@ -96,6 +96,17 @@ paths:
       security:
       - BearerAuth: []
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized - authentication required
+    NotFound:
+      description: Not found - resource does not exist
+    Forbidden:
+      description: Forbidden - insufficient permissions
+    BadRequest:
+      description: Bad request - invalid input parameters
+    InternalServerError:
+      description: Internal server error
   schemas:
     AuditLogEntry:
       type: object
@@ -155,17 +166,6 @@ components:
                 $ref: '#/components/schemas/AuditLogEntry'
         aggregations:
           type: object
-  responses:
-    Unauthorized:
-      description: Unauthorized - authentication required
-    Forbidden:
-      description: Forbidden - insufficient permissions
-    NotFound:
-      description: Not found - resource does not exist
-    BadRequest:
-      description: Bad request - invalid input parameters
-    InternalServerError:
-      description: Internal server error
   securitySchemes:
     BearerAuth:
       type: http

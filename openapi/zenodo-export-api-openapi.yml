@@ -118,14 +118,14 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    InternalServerError:
+      description: Internal server error
     Success:
       description: Successful response
       content:
         application/json:
           schema:
             type: object
-    InternalServerError:
-      description: Internal server error
     NotFound:
       description: Not found - resource does not exist
   securitySchemes:

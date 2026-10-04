@@ -51,6 +51,8 @@ components:
   responses:
     BadRequest:
       description: Bad request - invalid input parameters
+    InternalServerError:
+      description: Internal server error
     Unauthorized:
       description: Unauthorized - authentication required
     Created:
@@ -59,8 +61,6 @@ components:
         application/json:
           schema:
             type: object
-    InternalServerError:
-      description: Internal server error
   securitySchemes:
     BearerAuth:
       type: http
