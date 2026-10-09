@@ -1,3 +1,8 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (dated 2026-06-12 by the file itself), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
+generated: '2026-06-12'
 specification: API Commons Plans
 specificationVersion: '0.1'
 provider: Zenodo
@@ -110,3 +115,21 @@ pricing:
     Zenodo is funded by CERN and the European OpenAIRE program. There are no
     charges for depositing, accessing, or using the API. The service commits
     to keeping storage and access free for research outputs.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Free (Standard)
+    access: free
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Extended Quota (Request)
+    access: free
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
