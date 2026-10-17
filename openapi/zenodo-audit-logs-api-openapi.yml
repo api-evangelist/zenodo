@@ -99,14 +99,14 @@ components:
   responses:
     Unauthorized:
       description: Unauthorized - authentication required
-    NotFound:
-      description: Not found - resource does not exist
     Forbidden:
       description: Forbidden - insufficient permissions
-    BadRequest:
-      description: Bad request - invalid input parameters
     InternalServerError:
       description: Internal server error
+    NotFound:
+      description: Not found - resource does not exist
+    BadRequest:
+      description: Bad request - invalid input parameters
   schemas:
     AuditLogEntry:
       type: object
