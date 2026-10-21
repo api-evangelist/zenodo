@@ -1,0 +1,48 @@
+edges:
+- partner_name: data.europa.eu (European data portal)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://data.europa.eu/data/catalogues/zenodo
+  category: 'open data portal: DCAT-AP harvest network'
+  contract_reference:
+    register: data.europa.eu catalogue registry (data.europa.eu/api/hub/search/catalogues)
+    standard: DCAT-AP (DCAT Application Profile for data portals in Europe)
+    spec_file: null
+    role: harvested-catalogue
+    registered_name: CERN - European Organization for Nuclear Research and European Commission
+    register_id: zenodo
+    matched_domain: zenodo.org
+    matched_by: domain
+    listings:
+    - catalogue: zenodo
+      title: EU Open Research Repository
+      publisher: CERN - European Organization for Nuclear Research and European Commission
+      country: EUROPE
+      source_type: dcat-ap
+      datasets: 29791
+    signal_note: 'participation only: the catalogue is harvested by data.europa.eu (DCAT-AP metadata); no conformance
+      test is published; dataset counts are context, never counted'
+    detected_by: sweep-open-data-portals.py
+    detected: '2026-10-21'
+  detected_by: sweep-open-data-portals.py
+  first_seen: '2026-10-21'
+generated: '2026-10-21'
+method: searched
+source:
+- https://data.europa.eu/api/hub/search/catalogues
+- https://raw.githubusercontent.com/ckan/ckan-instances/gh-pages/config/instances.json
+- https://dataportals.org/api/data.json
+- 'https://interoperable-europe.ec.europa.eu/collection/semic-support-centre/dcat-ap (no implementations or conformance
+  register: the ''SEMIC map'' link redirects to the collection home)'
+- https://ckan.org/showcase (marketing showcase, not a register; not read)
+checked:
+- https://ckan.org/showcase (marketing showcase, not a register; not read)
+- https://data.europa.eu/api/hub/search/catalogues
+- https://dataportals.org/api/data.json
+- 'https://interoperable-europe.ec.europa.eu/collection/semic-support-centre/dcat-ap (no implementations or conformance
+  register: the ''SEMIC map'' link redirects to the collection home)'
+- https://raw.githubusercontent.com/ckan/ckan-instances/gh-pages/config/instances.json
